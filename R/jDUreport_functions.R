@@ -273,9 +273,9 @@
     names(data) <- columns
   }
   
-  start_J1              <- grep("J1", colnames(data)) + 1
-  start_J2              <- grep("J2", colnames(data)) + 1
-  start_J3              <- grep("J3", colnames(data)) + 1
+  start_J1              <- grep("\\bJ1\\b", colnames(data)) + 1
+  start_J2              <- grep("\\bJ2\\b", colnames(data)) + 1
+  start_J3              <- grep("\\bJ3\\b", colnames(data)) + 1
   
   data                  <- data[!is.na(data$J3), ]
   Js                    <- .makeJunctions(data, targets, start_J1, start_J2, start_J3, minAvgCounts, filterWithContrasted, contrast, strongFilter)
@@ -360,9 +360,9 @@
     names(data) <- columns
   }
   
-  start_J1              <- grep("J1", colnames(data)) + 1
-  start_J2              <- grep("J2", colnames(data)) + 1
-  start_J3              <- grep("J3", colnames(data)) + 1
+  start_J1              <- grep("\\bJ1\\b", colnames(data)) + 1
+  start_J2              <- grep("\\bJ2\\b", colnames(data)) + 1
+  start_J3              <- grep("\\bJ3\\b", colnames(data)) + 1
   
   data                  <- data[!is.na(data$J3), ]
   
@@ -437,9 +437,9 @@
     names(data) <- columns
   }
 
-  start_J1              <- grep("J1", colnames(data)) + 1
-  start_J2              <- grep("J2", colnames(data)) + 1
-  start_J3              <- grep("J3", colnames(data)) + 1
+  start_J1              <- grep("\\bJ1\\b", colnames(data)) + 1
+  start_J2              <- grep("\\bJ2\\b", colnames(data)) + 1
+  start_J3              <- grep("\\bJ3\\b", colnames(data)) + 1
   
   data                  <- data[!is.na(data$J3), ]
   
