@@ -487,15 +487,13 @@ return (dfBin)
 
 .getFilteringConditions <- function ( targets, contrast, onlyContrast ) {
 
-  allConditions <- getConditions( targets )
-  
-  constrast <- if ( is.null( contrast) ) .getDefaultContrasts( targets$condition )
-  
+  allConditions <- targets$condition
+  if ( is.null( contrast) ) constrast <- .getDefaultContrasts( targets$condition )
   if ( onlyContrast && ( ! is.null( contrast  ) ) ) {
     return( allConditions[ (contrast != 0) ] ) 
   } else {
     return( allConditions )
-  }   
+  }  
 }
 
 # ---------------------------------------------------------------------------- #
@@ -548,9 +546,10 @@ return (dfBin)
   if( is.null( contrast ) ) contrast <- .getDefaultContrasts(targets$condition)
   
   if ( verbose ) {
-    msg <- paste(mapply( paste0,contrast[contrast!=0],
-            getConditions(targets)[contrast!=0 ]),collpase = " ") 
-    message("  Contrast:",msg)
+    msg <- paste(mapply( paste0,signif(contrast[contrast!=0],2),"*",
+#            getConditions(targets)[contrast!=0 ]),collpase = " ")
+             targets$condition[contrast!=0 ]),collpase = " ") 
+    message("  Contrast: ",msg)
   }
   
   cols <- match( rownames( targets ), colnames( df ) )
