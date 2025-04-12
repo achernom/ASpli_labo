@@ -1472,13 +1472,24 @@ setMethod( f = 'mergeBinDUAS',
 
 
 setGeneric( name = "exportSplicingReports", 
-            def = function ( sr, output.dir="sr" , openInBrowser = FALSE, maxBinFDR = 0.2, maxJunctionFDR = 0.2 ) standardGeneric( "exportSplicingReports" ) )
+            def = function ( sr, output.dir="sr" , openInBrowser = FALSE, maxBinFDR = 0.2, maxJunctionFDR = 0.2, analysis_name = NULL ) standardGeneric( "exportSplicingReports" ) )
 
 setMethod(
   f = "exportSplicingReports",
   signature = "ASpliSplicingReport",
-  definition = function( sr, output.dir="sr" , openInBrowser = FALSE, maxBinFDR = 0.2, maxJunctionFDR = 0.2 ) {
-    output.dir <- paste0(output.dir, "/", paste0(names(sr@contrast)[sr@contrast != 0], collapse="-"))
+  definition = function( sr, output.dir="sr" , openInBrowser = FALSE, maxBinFDR = 0.2, maxJunctionFDR = 0.2, analysis_name = NULL ) {
+    
+    num_char <-nchar(output.dir)
+    if(substr(output.dir,num_char,num_char)=='/') output.dir <- substr(output.dir,1,num_char-1)
+      
+    
+    if(is.null(analysis_name)){
+      # use contrast derived name
+      output.dir <- paste0(output.dir, "/", paste0(names(sr@contrast)[sr@contrast != 0], collapse="-"))
+    }else{
+      output.dir <- paste0(output.dir, "/", analysis_name)
+    }
+      
     file.exists( output.dir ) || dir.create( output.dir , recursive = TRUE)
     
     
