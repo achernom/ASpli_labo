@@ -1617,14 +1617,15 @@ setGeneric( name = "exportIntegratedSignals",
                              ntop = NULL, 
                              openInBrowser = FALSE, 
                              makeGraphs = TRUE,
-                             bforce=FALSE
+                             bforce=FALSE,
+                             analysis_name=NULL
                              ) standardGeneric( "exportIntegratedSignals" ) )
 
 setMethod(
   f = "exportIntegratedSignals",
   signature = "ASpliIntegratedSignals",
   definition = function( is, output.dir="is", sr, counts, features, asd, mergedBams, jCompletelyIncluded = FALSE, zoomRegion = 1.5, useLog = FALSE, tcex = 1, ntop = NULL, 
-                         openInBrowser = FALSE, makeGraphs = TRUE,bforce=FALSE) {
+                         openInBrowser = FALSE, makeGraphs = TRUE,bforce=FALSE, analysis_name= NULL) {
 
     if(class(is) != "ASpliIntegratedSignals"){
       stop("is must be an ASpliIntegratedSignals object")
@@ -1669,7 +1670,15 @@ setMethod(
       stop("Merged bams dont match with contrasts")  
     }
     
-    output.dir <- paste0(output.dir, "/", paste0(names(sr@contrast)[sr@contrast != 0], collapse="-"))
+    
+    num_char <-nchar(output.dir)
+    if(substr(output.dir,num_char,num_char)=='/') output.dir <- substr(output.dir,1,num_char-1)
+    if(is.null(analysis_name)){
+      # use contrast derived name
+      output.dir <- paste0(output.dir, "/", paste0(names(sr@contrast)[sr@contrast != 0], collapse="-"))
+    }else{
+      output.dir <- paste0(output.dir, "/", analysis_name)
+    }
     output.dir <- substr(output.dir, 1, 255) #maximum dir length is 255
     file.exists( output.dir ) || dir.create( output.dir, recursive = TRUE)
     file.exists( paste0(output.dir, "/img") ) || dir.create( paste0(output.dir, "/img") )
