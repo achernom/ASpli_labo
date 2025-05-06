@@ -1647,7 +1647,7 @@ setMethod(
       stop("asd must be an ASpliAS object")
     }
     
-    if(nrow(mergedBams) > 4 & makeGraphs == TRUE){
+    if(nrow(mergedBams) > 6 & makeGraphs == TRUE){
       continue <- ""
       while(!continue %in% c("y", "n")){
         continue <- readline(prompt=paste("Warning, we are about to generate", nrow(mergedBams), "images for every event. This could take too long, do you want to continue? (y/n)"))
