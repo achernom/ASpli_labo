@@ -22,7 +22,7 @@ openInBrowser = FALSE, maxBinFDR = 0.2, maxJunctionFDR = 0.2, analysis_name = NU
   \item{openInBrowser}{Open reports in browser when done}
   \item{maxBinFDR}{Only show bins with FDR < maxBinFDR}
   \item{maxJunctionFDR}{Only show junctions with FDR < maxJunctionFDR}
-  \item{analysis_name}{If NULL the analysis contrast is used to specify the subfolder where the html files are stored. Else, the subfolder name}
+  \item{analysis_name}{(Experimental)If NULL the analysis contrast is used to specify the subfolder where the html files are stored. Else, the subfolder name}
 }
 
 \value{ 
