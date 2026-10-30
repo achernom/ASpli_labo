@@ -3,7 +3,13 @@ Type: Package
 Title: Analysis of Alternative Splicing Using RNA-Seq
 Version: 2.13.1
 Date: 2024-03-22
-Author: Estefania Mancini, Andres Rabinovich, Javier Iserte, Marcelo Yanovsky and Ariel Chernomoretz
+Authors@R: c(
+    person("Estefania", "Mancini", role = "aut"),
+    person("Andres", "Rabinovich", role = "aut"),
+    person("Javier", "Iserte", role = "aut"),
+    person("Marcelo", "Yanovsky", role = "aut"),
+    person("Ariel", "Chernomoretz", role = c("aut", "cre"),
+           email = "algo107@gmail.com"))
 License: GPL
 biocViews: ImmunoOncology, GeneExpression, Transcription, AlternativeSplicing,
            Coverage, DifferentialExpression, DifferentialSplicing,
@@ -12,9 +18,8 @@ Depends: methods, grDevices, stats, utils, parallel, edgeR, limma, AnnotationDbi
 Imports: GenomicRanges, GenomicFeatures, BiocGenerics,
          IRanges, GenomicAlignments, Gviz, S4Vectors, Rsamtools,
          BiocStyle, igraph, htmltools, data.table, UpSetR, tidyr, DT, MASS, grid, graphics,
-         pbmcapply, txdbmaker
+         pbmcapply
 Description: Integrative pipeline for the analysis of alternative
              splicing using RNAseq.
-Suggests: testthat (>= 3.0.0), withr
+Suggests: testthat (>= 3.0.0), withr, txdbmaker
 Config/testthat/edition: 3
-Maintainer: Ariel Chernomoretz <algo107@gmail.com>
