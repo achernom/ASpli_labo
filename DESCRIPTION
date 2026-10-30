@@ -15,5 +15,6 @@ Imports: GenomicRanges, GenomicFeatures, BiocGenerics,
          pbmcapply, txdbmaker
 Description: Integrative pipeline for the analysis of alternative
              splicing using RNAseq.
-Suggests: 
+Suggests: testthat (>= 3.0.0), withr
+Config/testthat/edition: 3
 Maintainer: Ariel Chernomoretz <algo107@gmail.com>
