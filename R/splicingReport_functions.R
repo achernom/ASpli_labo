@@ -48,7 +48,7 @@
   
   j                      <- data.table(rbind(jir, jes, jalt), keep.rownames = TRUE)
   bins                   <- data.table(binsDU(bdu), keep.rownames = TRUE)
-  aux                    <- data.frame(merge(bins, j, by="rn", all=T))
+  aux                    <- data.frame(merge(bins, j, by="rn", all=TRUE))
   colnames(aux)          <- c("bin", "feature", "bin.event", "locus", "locus_overlap", "symbol", "gene_coordinates", "start",
                               "end", "length", "bin.logFC", "bin.pvalue", "bin.fdr", "junction.event", "J3", "J3.multiplicity", "J3.logFC",
                               "J3.log.mean", "cluster.LR", "cluster.pvalue", "cluster.fdr", "cluster.dPIR", "cluster.dPSI", "cluster.nonuniformity", colnames(aux)[grep("counts", colnames(aux))])

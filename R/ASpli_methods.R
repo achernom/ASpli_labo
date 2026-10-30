@@ -485,8 +485,8 @@ setMethod(
         counts@junction.counts <- junction.hits
       }else{
         dt1                    <- data.table(counts@junction.counts, keep.rownames = TRUE)
-        dt2                    <- data.table(.extractCountColumns(junction.hits, targets[target, ]), keep.rownames = T)
-        dt3                    <- data.frame(merge(dt1, dt2, by="rn", all.x=T, all.y=TRUE))
+        dt2                    <- data.table(.extractCountColumns(junction.hits, targets[target, ]), keep.rownames = TRUE)
+        dt3                    <- data.frame(merge(dt1, dt2, by="rn", all.x=TRUE, all.y=TRUE))
         for(s in c("junction", "gene", "strand", "multipleHit", "symbol", "gene_coordinates", "bin_spanned", "j_within_bin")){
           dt3[, s]           <- as.character(dt3[, s])
           junction.hits[, s] <- as.character(junction.hits[, s])
@@ -1812,8 +1812,8 @@ setMethod(
     )    
     
     ffile <- paste0(normalizePath(output.dir), "/integratedSignals.html")
-    suppressWarnings(saveWidget(y, file = ffile, title = paste(names(sr@contrast)[sr@contrast != 0], collapse = " - "), selfcontained = F))
-    if(openInBrowser == T) browseURL(ffile)
+    suppressWarnings(saveWidget(y, file = ffile, title = paste(names(sr@contrast)[sr@contrast != 0], collapse = " - "), selfcontained = FALSE))
+    if(isTRUE(openInBrowser)) browseURL(ffile)
     
   }
 )

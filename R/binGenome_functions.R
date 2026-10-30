@@ -65,12 +65,12 @@
   # los solapamientos que se encuentran deben ser entre rangos de genes 
   # diferentes.
   #Modificaciones hechas por AR 20201128
-  if(F){
+  if(FALSE){
     #if ( packageVersion("IRanges") < 2.6 )
     if (compareVersion(as.character(packageVersion("IRanges")),'2.6')<0){
-      locus <- findOverlaps( binsGRangesList, ignoreSelf=TRUE, ignore.strand = T ) 
+      locus <- findOverlaps( binsGRangesList, ignoreSelf=TRUE, ignore.strand = TRUE ) 
     } else {
-      locus <- findOverlaps( binsGRangesList, drop.self=TRUE, ignore.strand = T ) 
+      locus <- findOverlaps( binsGRangesList, drop.self=TRUE, ignore.strand = TRUE ) 
       #locus <- findOverlaps( binsGRangesList[c(i, j)], drop.self=TRUE, ignore.strand = T ) 
     }
     
@@ -99,9 +99,9 @@
     names(grangos) <- rangos$group_name
     #if ( packageVersion("IRanges") < 2.6 )
     if (compareVersion(as.character(packageVersion("IRanges")),'2.6')<0){      
-      locus <- findOverlaps( grangos, ignoreSelf=TRUE, ignore.strand = T ) 
+      locus <- findOverlaps( grangos, ignoreSelf=TRUE, ignore.strand = TRUE ) 
     } else {
-      locus <- findOverlaps( grangos, drop.self=TRUE, ignore.strand = T ) 
+      locus <- findOverlaps( grangos, drop.self=TRUE, ignore.strand = TRUE ) 
     }
     
     # -------------------------------------------------------------------------- #

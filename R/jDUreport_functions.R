@@ -443,7 +443,7 @@
   
   data                  <- data[!is.na(data$J3), ]
   
-  Js                    <- .makeJunctions(data, targets, start_J1, start_J2, start_J3, minAvgCounts, filterWithContrasted, contrast, strongFilter, alt = T)
+  Js                    <- .makeJunctions(data, targets, start_J1, start_J2, start_J3, minAvgCounts, filterWithContrasted, contrast, strongFilter, alt = TRUE)
   if(nrow(Js$J3) == 0) stop("No junctions to analyze! Is minReadLength less than bam read length? Maybe set strongFilter to FALSE?")
   
   countData             <- .makeCountData(Js$J3, Js$J1 + Js$J2)
@@ -808,7 +808,7 @@
     #reader <- readers[[which.max(data[p, getConditions(targets)])]]
     
     pp      <- strsplit2(p, "[.]")[1, ]
-    ad <- system(paste0("samtools depth -r ", paste0(pp[1], ":", (as.numeric(pp[2])-10), "-",  (as.numeric(pp[3])+10)), " ", mergedBams[which.max(data[p, getConditions(targets)[contrast != 0]])]), intern = T)
+    ad <- system(paste0("samtools depth -r ", paste0(pp[1], ":", (as.numeric(pp[2])-10), "-",  (as.numeric(pp[3])+10)), " ", mergedBams[which.max(data[p, getConditions(targets)[contrast != 0]])]), intern = TRUE)
     if(length(ad) > 40){
       ad <- as.numeric(strsplit2(ad, "\t")[, 3])
       #if(refid[pp[1]] < 5){
