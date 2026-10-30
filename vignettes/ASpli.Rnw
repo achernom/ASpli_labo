@@ -567,14 +567,14 @@ The result of \texttt{gbDUreport()} method is an object of class
 
 Accesors:
 
-<<asdAccesor, echo=TRUE, eval=FALSE>>=
+<<asdAccesor3, echo=TRUE, eval=FALSE>>=
 geneX  <- genesDE( gb )
 binDU  <- binsDU( gb )
 @
 
 Export tab delimited tables:
 
-<<gbCountsWrite, echo=TRUE, eval=FALSE>>=
+<<gbCountsWrite2, echo=TRUE, eval=FALSE>>=
 writeDU(gb, output.dir = "example")
 @
 
@@ -685,7 +685,7 @@ Accesors:
 
 Export tab delimited table (see \ref{sec:reports} for interactive HTML reports):
 
-<<splicingReportA, echo=TRUE, eval=FALSE>>=
+<<splicingReportA2, echo=TRUE, eval=FALSE>>=
 writeSplicingReport( sr, output.dir = "test")
 @
 
@@ -1065,7 +1065,7 @@ Table \ref{tab:Formulas01} summarizes three statistical comparisons that could b
 
 In this way, to test for an interaction effect with the {\em formula} framework, we should run:
 
-<<Ex02.k, echo=TRUE, eval=FALSE>>=
+<<Ex02.k3, echo=TRUE, eval=FALSE>>=
 gb      <- gbDUreport(counts, formula = form , coef = 4)
 jdur    <- jDUreport(asd, formula = form, coef = 4 ,
                      runUniformityTest = TRUE,
