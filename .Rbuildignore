@@ -2,3 +2,6 @@
 ^\.Rproj\.user$
 ^README.md
 ^NEWS_backup
+^\.positai$
+^\.claude$
+^\.CLAUDE.md$
