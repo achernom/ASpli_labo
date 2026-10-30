@@ -16,7 +16,7 @@ exportIntegratedSignals( is, output.dir="is",
                          jCompletelyIncluded = FALSE, zoomRegion = 1.5, 
                          useLog = FALSE, tcex = 1, ntop = NULL, 
                          openInBrowser = FALSE, 
-                         makeGraphs = TRUE, bforce=FALSE
+                         makeGraphs = TRUE, bforce=FALSE, analysis_name=NULL
                         )
 }
 
@@ -48,6 +48,7 @@ exportIntegratedSignals( is, output.dir="is",
   \item{openInBrowser}{Open reports in browser when done}
   \item{makeGraphs}{Generate graphs in reports}
   \item{bforce}{Force plot generation even if plot already exists}
+  \item{analysis_name}{If NULL the analysis contrast is used to specify the subfolder where the html files are stored. Else, the subfolder name}
 }
 
 \value{ 

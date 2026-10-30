@@ -1472,13 +1472,24 @@ setMethod( f = 'mergeBinDUAS',
 
 
 setGeneric( name = "exportSplicingReports", 
-            def = function ( sr, output.dir="sr" , openInBrowser = FALSE, maxBinFDR = 0.2, maxJunctionFDR = 0.2 ) standardGeneric( "exportSplicingReports" ) )
+            def = function ( sr, output.dir="sr" , openInBrowser = FALSE, maxBinFDR = 0.2, maxJunctionFDR = 0.2, analysis_name = NULL ) standardGeneric( "exportSplicingReports" ) )
 
 setMethod(
   f = "exportSplicingReports",
   signature = "ASpliSplicingReport",
-  definition = function( sr, output.dir="sr" , openInBrowser = FALSE, maxBinFDR = 0.2, maxJunctionFDR = 0.2 ) {
-    output.dir <- paste0(output.dir, "/", paste0(names(sr@contrast)[sr@contrast != 0], collapse="-"))
+  definition = function( sr, output.dir="sr" , openInBrowser = FALSE, maxBinFDR = 0.2, maxJunctionFDR = 0.2, analysis_name = NULL ) {
+    
+    num_char <-nchar(output.dir)
+    if(substr(output.dir,num_char,num_char)=='/') output.dir <- substr(output.dir,1,num_char-1)
+      
+    
+    if(is.null(analysis_name)){
+      # use contrast derived name
+      output.dir <- paste0(output.dir, "/", paste0(names(sr@contrast)[sr@contrast != 0], collapse="-"))
+    }else{
+      output.dir <- paste0(output.dir, "/", analysis_name)
+    }
+      
     file.exists( output.dir ) || dir.create( output.dir , recursive = TRUE)
     
     
@@ -1606,14 +1617,15 @@ setGeneric( name = "exportIntegratedSignals",
                              ntop = NULL, 
                              openInBrowser = FALSE, 
                              makeGraphs = TRUE,
-                             bforce=FALSE
+                             bforce=FALSE,
+                             analysis_name=NULL
                              ) standardGeneric( "exportIntegratedSignals" ) )
 
 setMethod(
   f = "exportIntegratedSignals",
   signature = "ASpliIntegratedSignals",
   definition = function( is, output.dir="is", sr, counts, features, asd, mergedBams, jCompletelyIncluded = FALSE, zoomRegion = 1.5, useLog = FALSE, tcex = 1, ntop = NULL, 
-                         openInBrowser = FALSE, makeGraphs = TRUE,bforce=FALSE) {
+                         openInBrowser = FALSE, makeGraphs = TRUE,bforce=FALSE, analysis_name= NULL) {
 
     if(class(is) != "ASpliIntegratedSignals"){
       stop("is must be an ASpliIntegratedSignals object")
@@ -1635,7 +1647,7 @@ setMethod(
       stop("asd must be an ASpliAS object")
     }
     
-    if(nrow(mergedBams) > 4 & makeGraphs == TRUE){
+    if(nrow(mergedBams) > 6 & makeGraphs == TRUE){
       continue <- ""
       while(!continue %in% c("y", "n")){
         continue <- readline(prompt=paste("Warning, we are about to generate", nrow(mergedBams), "images for every event. This could take too long, do you want to continue? (y/n)"))
@@ -1658,7 +1670,15 @@ setMethod(
       stop("Merged bams dont match with contrasts")  
     }
     
-    output.dir <- paste0(output.dir, "/", paste0(names(sr@contrast)[sr@contrast != 0], collapse="-"))
+    
+    num_char <-nchar(output.dir)
+    if(substr(output.dir,num_char,num_char)=='/') output.dir <- substr(output.dir,1,num_char-1)
+    if(is.null(analysis_name)){
+      # use contrast derived name
+      output.dir <- paste0(output.dir, "/", paste0(names(sr@contrast)[sr@contrast != 0], collapse="-"))
+    }else{
+      output.dir <- paste0(output.dir, "/", analysis_name)
+    }
     output.dir <- substr(output.dir, 1, 255) #maximum dir length is 255
     file.exists( output.dir ) || dir.create( output.dir, recursive = TRUE)
     file.exists( paste0(output.dir, "/img") ) || dir.create( paste0(output.dir, "/img") )

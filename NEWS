@@ -1,3 +1,9 @@
+CHANGES IN VERSION 2.19.1
+------------------------
+BUG FIXES
+  * Solve a bug in getFilteringConditions.
+  * Solve bug in jDUreport: better identification of start_J1, start_J2, and start_J3 columns.
+  
 CHANGES IN VERSION 2.11.1
 ------------------------
 BUG FIXES
