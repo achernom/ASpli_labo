@@ -10,7 +10,7 @@
   counts and the length of the feature. The results are appended into an 
   ASpliCounts object that must be given as argument. The explicit calculation 
   of read densities is usually not required because is automatically performed
-  by \code{readCounts} function.
+  by \code{gbCounts} function.
 }
 
 \usage{
@@ -45,12 +45,9 @@
 #               bam = system.file( 'extdata', bamFileNames, package="ASpli" ),
 #               factor1 = c( 'C','C','C','D','D','D') )
 #  
-#  # Load reads from bam files
-#  bams <- loadBAM( targets )
-#  
-#  # Read counts from bam files
-#  counts   <- readCounts( features, bams, targets, cores = 1, readLength = 100, 
-#                          maxISize = 50000 )
+#  # Read counts from bam files (also loads them)
+#counts   <- gbCounts( features, targets, minReadLength = 100, 
+  #                        maxISize = 50000 )
 #                          
 #  # Calculates read densities
 #  counts <- rds( counts, targets )

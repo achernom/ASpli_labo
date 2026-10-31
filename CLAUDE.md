@@ -78,7 +78,7 @@ Rscript -e 'BiocCheck::BiocCheck("ASpli_*.tar.gz")'   # si BiocCheck está insta
 
 ## Estado conocido / pendientes
 
-- DESCRIPTION (Version/Date) puede estar desfasado respecto de la última entrada de NEWS: verificar antes de subir a upstream
+- Se eliminaron las funciones del flujo v1 (`DUreport`, `readCounts`, `AsDiscover`, `loadBAM`, `mergeBinDUAS`, `filterDU`, `plotGenomicRegions`, ...). `readCounts`, `AsDiscover` y `loadBAM` quedaron como helpers internos (`.readCounts`, `.AsDiscover`, `.loadBAM`). La guía de migración está en `man/ASpli-defunct.Rd`. No usar `.Deprecated()`/`.Defunct()` en `R/` (BiocCheck da WARNING)
 - El umbral `nrow(mergedBams) > 6` en `exportIntegratedSignals` es provisorio
 - `exportIntegratedSignals` trunca `output.dir` a 255 caracteres; `exportSplicingReports` no
 - No hay cobertura de tests de las funciones de graficado (`plotBins_functions.R`, `plotGenomeRegions_functions.R`)

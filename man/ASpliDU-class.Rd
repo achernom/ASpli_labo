@@ -13,8 +13,6 @@
 \alias{genesDE<-,ASpliDU,data.frame-method}
 \alias{junctionsDU<-,ASpliDU,data.frame-method}
 \alias{writeDU,ASpliDU-method}
-\alias{filterDU,ASpliDU-method}
-\alias{mergeBinDUAS,ASpliDU,ASpliAS-method}
 \alias{containsGenesAndBins,ASpliDU-method}
 \alias{containsJunctions,ASpliDU-method}
 \alias{splicingReport,ASpliDU-method}

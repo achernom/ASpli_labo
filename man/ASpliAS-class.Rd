@@ -57,7 +57,7 @@
 \author{ Estefania Mancini, Andres Rabinovich, Javier Iserte, Marcelo Yanovsky, Ariel Chernomoretz}
 
 \seealso{ 
-  Methods: \code{\link{AsDiscover}}
+  Methods: \code{\link{jCounts}}
   
   Accesors: \code{\link{altPSI}},
             \code{\link{irPIR}},

@@ -4,10 +4,6 @@
 
 \alias{ASpliCounts-class}
 \alias{jCounts,ASpliCounts-method}
-\alias{DUreport,ASpliCounts-method}
-\alias{DUreportBinSplice,ASpliCounts-method}
-\alias{junctionDUreport,ASpliCounts-method}
-\alias{AsDiscover,ASpliCounts-method}
 \alias{countsb,ASpliCounts-method}
 \alias{countse1i,ASpliCounts-method}
 \alias{countsg,ASpliCounts-method}
@@ -60,15 +56,11 @@
 
 \section{Methods}{
   \describe{
-    \item{AsDiscover}{ psi and pir metrics}
     \item{countsb}{bin counts accesor}
     \item{countse1i}{ e1i counts accesor}
     \item{countsg}{ gene counts accesor}
     \item{countsie2}{ie2 counts accesor}
     \item{countsj}{junction counts accesor}
-    \item{DUreport_DEXSeq}{ differential expression and usage estimation 
-      using DEXSeq }
-    \item{DUreport}{differential expression and usage estimation using DEXSeq}
     \item{rdsb}{bin read densities accesor}
     \item{rdsg}{gen read densities acceesor}
     \item{rds}{compute read densities on genes and bins}

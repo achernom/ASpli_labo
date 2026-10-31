@@ -8,8 +8,8 @@
 
 \description{
   ASpli provides utility functions to easy subset ASpliCounts objects, 
-  ASpliAS objects, targets data frame and lists GAlignments generated with 
-  loadBAM function. The subset can be done selecting some of the experimental 
+  ASpliAS objects, targets data frame and lists of GAlignments objects (one
+  per sample). The subset can be done selecting some of the experimental 
   conditions or samples names ( but not both ).
 }
 
@@ -67,25 +67,18 @@
   #             bam = system.file( 'extdata', bamFileNames, package="ASpli" ),
   #             factor1 = c( 'C','C','C','D','D','D') )
   #
-  # Load reads from bam files
-  #bams <- loadBAM( targets )
-  #
-  # Read counts from bam files
-  #counts   <- readCounts( features, bams, targets, cores = 1, readLength = 100, 
+  # Read counts from bam files (also loads them)
+  #counts   <- gbCounts( features, targets, minReadLength = 100, 
   #                        maxISize = 50000 )
 #  
  # # Create ASpliAS object                        
-  #as       <- AsDiscover( counts, targets, features, bams, readLength = 100, 
-   #                       threshold = 5, cores = 1 )
+  #as       <- jCounts( counts, features, minReadLength = 100 )
     #                      
   # Define selection
   #select <- c('Sample_1', 'Sample_2', 'Sample_4', 'Sample_5')                       
   #
   # Subset target 
   #targets2 <- subsetTargets( targets, select )
-  
-  # Subset bams 
-  #bams2 <- subsetBams( bams, targets, select )
   
   # Subset ASpliCounts object 
   #counts2 <- subset( counts, targets, select )

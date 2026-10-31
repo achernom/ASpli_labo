@@ -37,11 +37,6 @@ aspliExampleBamList <- function( ) {
   system.file( 'extdata', bamFileNames , package = "ASpli")
 }
 
-aspliBamsExample <- function( ) {
-  targets <- aspliTargetsExample()
-  loadBAM( targets )
-} 
-
 aspliDUexample1 <- function( ) {
   .loadASpliObject( "ASpliDU", 'du', 
       c('genes', 'bins', 'junctions'),

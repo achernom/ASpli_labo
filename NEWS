@@ -1,3 +1,28 @@
+CHANGES IN VERSION 2.19.2
+------------------------
+FUNCTIONS DEFUNCT
+  * The functions of the ASpli 1.x workflow, deprecated since the introduction of the new pipeline, were removed. See ?"ASpli-defunct" for a guide to migrate old scripts. Older Bioconductor releases still contain them.
+  
+    * DUreport, DUreportBinSplice: use gbDUreport (DUreport.norm and DUreport.offset remain available).
+  
+    * junctionDUreport: use jDUreport.
+  
+    * mergeBinDUAS and filterDU: use splicingReport, integrateSignals and filterSignals.
+  
+    * plotGenomicRegions: use exportSplicingReports and exportIntegratedSignals.
+  
+    * readCounts, loadBAM: use gbCounts. They are no longer exported (internal helpers of gbCounts).
+  
+    * AsDiscover: use jCounts. It is no longer exported (internal helper of jCounts).
+  
+    * aspliBamsExample was removed together with loadBAM.
+
+OTHER CHANGES
+  * NAMESPACE now uses explicit exports instead of exportPattern.
+  * Added examples and \value sections to man pages, and the man page ASpli-defunct.
+  * Code cleanup requested by BiocCheck: is() instead of class(x) == "...", vapply instead of sapply.
+  * Removed the conflict of the imported function utils::findMatches with S4Vectors::findMatches.
+
 CHANGES IN VERSION 2.19.1
 ------------------------
 BUG FIXES

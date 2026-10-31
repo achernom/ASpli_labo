@@ -113,7 +113,7 @@ Returns a png for each selected bin }
 \author{ Estefania Mancini, Andres Rabinovich, Javier Iserte, Marcelo Yanovsky, Ariel Chernomoretz  }
 
 \seealso{
-  \code{\link{plotGenomicRegions}}, 
+  \code{\link{exportSplicingReports}}, \code{\link{exportIntegratedSignals}}
 }
 
 \examples{
@@ -139,19 +139,15 @@ Returns a png for each selected bin }
   #             factor1 = c( 'A','A','A','A','A','A','B','B','B','B','B','B'),
   #             factor2 = c( 'C','C','C','D','D','D','C','C','C','D','D','D') )
   
-  # Load reads from bam files
-  #bams <- loadBAM( targets )
-  
-  # Read counts from bam files
-  #counts   <- readCounts( features, bams, targets, cores = 1, readLength = 100, 
+  # Read counts from bam files (also loads them)
+  #counts   <- gbCounts( features, targets, minReadLength = 100, 
   #                        maxISize = 50000 )
   
   # Calculate differential usage of genes, bins and junctions 
   #du       <- DUreport.norm( counts, targets , contrast = c(1,-1,-1,1))
 
   # Calculate PSI / PIR for bins and junction.
-  #as       <- AsDiscover( counts, targets, features, bams, readLength = 100, 
-  #                        threshold = 5, cores = 1 )
+  #as       <- jCounts( counts, features, minReadLength = 100 )
   
   # Plot bin data. Factor2 is the main factor for graphic representation in
   # this example as it is the first in factorsAndValues argument.
@@ -174,8 +170,7 @@ Returns a png for each selected bin }
   #             bam = system.file( 'extdata', bamFileNames, package="ASpli" ),
   #             factor1 = c( 'A','A','B','B','C','C','D','D','E','E','F','F') )
   
-  #as       <- AsDiscover( counts, targets, features, bams, readLength = 100, 
-  #                        threshold = 5, cores = 1 )
+  #as       <- jCounts( counts, features, minReadLength = 100 )
   
   # This makes a line plot for six conditions, grouped by factor1.                       
   #plotBins( counts, as, 'GENE03:E002', 

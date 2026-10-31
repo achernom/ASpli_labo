@@ -1,6 +1,5 @@
 \name{jCounts}
 \alias{jCounts}
-\alias{AsDiscover}
 
 \title{ Report PSI, PJU and PIR using experimental junctions }
 

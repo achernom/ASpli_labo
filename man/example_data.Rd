@@ -1,7 +1,6 @@
 \name{Example data}
 
 \alias{aspliASexample}
-\alias{aspliBamsExample}
 \alias{aspliCountsExample}
 \alias{aspliDUexample1}
 \alias{aspliDUexample2}
@@ -22,7 +21,6 @@
 
 \usage{
   aspliASexample()
-  aspliBamsExample()
   aspliCountsExample()
   aspliDUexample1()
   aspliDUexample2()
@@ -43,7 +41,6 @@ bamfiles <- aspliExampleBamList()
 targets  <- aspliTargetsExample()
 features <- aspliFeaturesExample()
 #as <- aspliASexample()
-#bams <- aspliBamsExample()
 #counts <- aspliCountsExample()
 #du1 <- aspliDUexample1()
 #du2 <- aspliDUexample2()

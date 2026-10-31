@@ -290,7 +290,7 @@ setMethod(
                          strandMode=0,
                          alignFastq = FALSE,
                          dropBAM = FALSE) {
-    counts <- readCounts( features = features, bam = NULL, targets = targets, readLength = minReadLength, maxISize = maxISize, minAnchor = minAnchor,
+    counts <- .readCounts( features = features, targets = targets, readLength = minReadLength, maxISize = maxISize, minAnchor = minAnchor,
                           libType=libType,
                           strandMode=strandMode, alignFastq = alignFastq, dropBAM = dropBAM)
     counts@.ASpliVersion = "2" #Marks ASpliCounts object with the ASpli update 2.0.0
@@ -298,35 +298,11 @@ setMethod(
   }
 )
 
-# readCounts
-setGeneric (
-  name = "readCounts",
-  def = function( features, 
-                  bam,
-                  targets, 
-                  cores = 1, 
-                  readLength, 
-                  maxISize, 
-                  minAnchor = 10,
-                  libType=libType,
-                  strandMode=strandMode,
-                  alignFastq = FALSE,
-                  dropBAM = FALSE
-                  )
-    standardGeneric("readCounts") )
+# Read summarization by gene, bin, e1i, ie2 and junction (used by gbCounts)
+.readCounts <- function( features, targets, readLength, maxISize, minAnchor = 10,
+                         libType = "SE", strandMode = 0, alignFastq = FALSE, 
+                         dropBAM = FALSE ) {
 
-setMethod(
-  f = "readCounts",
-  signature = "ASpliFeatures",
-  definition = function( features, bam, targets, cores = 1, readLength,  
-                         maxISize, minAnchor = 10,
-                         libType=libType,
-                         strandMode=strandMode, alignFastq = FALSE, dropBAM = FALSE) {
-
-    if(!is.null(bam)){
-      .Deprecated("gbCounts")
-    }
-    
     #Check if alignFastq then targets must have one extra column with fastqs.
     #Also, if not, check if all bams exist before running
     if(alignFastq){
@@ -343,7 +319,6 @@ setMethod(
     }
     
     minReadLength <- readLength
-    cores <- 1 #Allways use 1 core.
  
     #Create result object
     counts <- new(Class="ASpliCounts")
@@ -359,15 +334,11 @@ setMethod(
     minAnchor <- if ( ! is.null(minAnchor) ) minAnchor else 10
     minA <- round( minAnchor * minReadLength / 100 )
     ptm <- proc.time()
-    if(is.null(bam)) {
-      ntargets <- nrow(targets)
-    }else{
-      ntargets <- 1
-    }
+    ntargets <- nrow(targets)
     
     for(target in 1:ntargets){
       
-      if(ntargets > 1 | is.null(bam)){
+      {
         #Verbose
         message(paste("Summarizing", rownames(targets)[target]))
         
@@ -416,9 +387,7 @@ setMethod(
         }
               
         #Load bam from current target
-        bam <- loadBAM(targets[target, ], cores = NULL,
-                       libType=libType, 
-                       strandMode=strandMode) #With cores = NULL wont print deprecated message
+        bam <- .loadBAM(targets[target, ], libType=libType, strandMode=strandMode)
         
         #If dropBAM drops bam and bai but only if alignFastq = TRUE
         if(alignFastq & dropBAM){
@@ -537,10 +506,9 @@ setMethod(
     gc()
     return(counts)
     
-  }
-)
+}
 
-# jCounts is a wrapper around AsDiscover for improved legibility
+# jCounts is a wrapper around .AsDiscover for improved legibility
 setGeneric (
   name= "jCounts",
   def = function( counts, 
@@ -571,7 +539,7 @@ setMethod(
     if(counts@.ASpliVersion == "1"){
       stop("Your version of ASpliCounts can not be used with this version of ASpli, please run gbCounts first. See vignette for details on the new pipeline.")
     }
-    as <- AsDiscover( counts = counts, targets = NULL, features = features, bam = NULL, readLength = minReadLength, threshold = threshold, cores = 1, minAnchor = minAnchor,
+    as <- .AsDiscover( counts = counts, features = features, readLength = minReadLength, threshold = threshold, minAnchor = minAnchor,
                       libType = libType,
                       strandMode = strandMode, alignFastq = alignFastq, dropBAM = dropBAM)
     as@.ASpliVersion = "2" #Marks ASpliCounts object with the ASpli update 2.0.0    
@@ -579,49 +547,12 @@ setMethod(
   }
 )
 
-setGeneric (
-  name= "AsDiscover",
-  def = function( counts, 
-                  targets,
-                  features, 
-                  bam, 
-                  readLength, 
-                  threshold = 5,
-                  cores = 1, 
-                  minAnchor = 10,
-                  libType=libType,
-                  strandMode=strandMode,
-                  alignFastq = FALSE,
-                  dropBAM = FALSE) standardGeneric("AsDiscover") )
-
-setMethod(
-  f = "AsDiscover",
-  signature = "ASpliCounts",
-  definition = function( counts, 
-                         targets,
-                         features, 
-                         bam, 
-                         readLength, 
-                         threshold = 5,
-                         cores = 1, 
-                         minAnchor = 10,
-                         libType=libType,
-                         strandMode=strandMode,
-                         alignFastq = FALSE,
-                         dropBAM = FALSE) {
+# Junction based PSI/PIR metrics (used by jCounts)
+.AsDiscover <- function( counts, features, readLength, threshold = 5, 
+                         minAnchor = 10, libType = "SE", strandMode = 0, 
+                         alignFastq = FALSE, dropBAM = FALSE ) {
     
-    if(!.hasSlot(counts, ".ASpliVersion")){
-      counts@.ASpliVersion = "1" #Last version before 2.0.0 was 1.14.0. 
-    }
-    if(counts@.ASpliVersion == "1"){
-      #Version conflict
-      if(is.null(bam)){
-        stop("Counts object is ASpli v1 but no bam was loaded. Please see vignette for new pipeline.")
-      }
-      .Deprecated("jCounts")
-    }else{
-      targets <- counts@targets
-    }
+    targets <- counts@targets
 
     #Check if alignFastq then targets must have one extra column with fastqs.
     #Also, if not, check if all bams exist before running
@@ -638,7 +569,6 @@ setMethod(
       }
     }
     minReadLength <- readLength
-    cores <- 1
     #libType=libType
     #strandMode=strandMode
     
@@ -661,7 +591,6 @@ setMethod(
     message("Junctions PJU completed")
     
     # Junctions PIR:
-    if(is.null(bam)) {
       ntargets <- nrow(targets)
       for(target in 1:ntargets){
          
@@ -712,8 +641,7 @@ setMethod(
          }
         
          #Load bam from current target
-         bam <- loadBAM(targets[target, ], cores = NULL, 
-                        libType=libType, strandMode=strandMode) #With cores = NULL wont print deprecated message
+         bam <- .loadBAM(targets[target, ], libType=libType, strandMode=strandMode)
          
          #If dropBAM drops bam and bai but only if alignFastq = TRUE
          if(alignFastq & dropBAM){
@@ -750,16 +678,6 @@ setMethod(
       j3 <- .sumByCond( as@junctionsPIR[, inicio_j3:(inicio_j3+nrow(targets)-1)],     targets )
       pirValues <- ( j1 + j2 ) / ( j1 + j2 + 2 * j3 )
       as@junctionsPIR <- cbind(as@junctionsPIR, pirValues)
-    }else{
-      
-      junctionsPIR <- .junctionsDiscover( df=jcounts, 
-                                          minReadLength=minReadLength, 
-                                          targets=targets, 
-                                          features=features,
-                                          minAnchor = minAnchor,
-                                          bam=bam) 
-      as@junctionsPIR <- junctionsPIR
-    }
     message("Junctions PIR completed")
     
     jranges <- .createGRangesExpJunctions( rownames( jcounts ) )
@@ -939,7 +857,7 @@ setMethod(
     
     return( as )
     
-  })
+}
 
 setMethod( 
   f = 'subset',
@@ -1112,77 +1030,6 @@ setMethod(
   return(du)  
 })
 
-setGeneric( name = 'DUreportBinSplice',
-            def = function( counts, targets, minGenReads  = 10, minBinReads = 5, 
-                            minRds = 0.05, contrast = NULL, forceGLM = FALSE,  
-                            ignoreExternal = TRUE, ignoreIo = TRUE, ignoreI = FALSE, 
-                            filterWithContrasted = FALSE, verbose = TRUE ) 
-              standardGeneric( 'DUreportBinSplice'))
-
-setMethod( 
-  f = 'DUreportBinSplice',
-  signature = 'ASpliCounts',
-  definition = function( counts, 
-                         targets, 
-                         minGenReads  = 10, 
-                         minBinReads = 5,
-                         minRds = 0.05, 
-                         contrast = NULL, 
-                         forceGLM = FALSE, 
-                         ignoreExternal = TRUE,
-                         ignoreIo = TRUE, 
-                         ignoreI = FALSE, 
-                         filterWithContrasted = TRUE,
-                         verbose = TRUE ) {
-    .Deprecated("gbDUreport")
-    du <- .DUreportBinSplice( counts, targets, minGenReads, minBinReads, minRds, 
-                              contrast, forceGLM, ignoreExternal, ignoreIo, ignoreI, 
-                              filterWithContrasted, verbose = TRUE ) 
-    du@.ASpliVersion <- "1"
-    return(du)
-  })
-
-
-setGeneric( name = "junctionDUreport",
-            def = function (  counts, 
-                              targets, 
-                              appendTo = NULL, 
-                              minGenReads = 10,
-                              minRds = 0.05,
-                              threshold = 5,
-                              offset   = FALSE,
-                              offsetUseFitGeneX = TRUE,
-                              contrast = NULL,
-                              forceGLM = FALSE 
-            ) standardGeneric("junctionDUreport") )
-
-
-setMethod(
-  f = "junctionDUreport",
-  signature = "ASpliCounts",
-  definition = function ( 
-    counts, 
-    targets, 
-    appendTo = NULL,
-    minGenReads = 10,
-    minRds = 0.05,
-    threshold = 5,
-    offset = FALSE,
-    offsetUseFitGeneX = TRUE,
-    contrast = NULL,
-    forceGLM = FALSE 
-    # -------------------------------------------------------------------- #
-    # Comment to disable priorcounts usage in bin normalization 
-    # , priorCounts = 0 
-    # -------------------------------------------------------------------- #
-  ) {
-    .Deprecated("jDUreport")
-    .junctionDUreport( counts, targets, appendTo,  minGenReads,  minRds, 
-                       threshold, offset, offsetUseFitGeneX, contrast, 
-                       forceGLM ) 
-  }
-)
-
 setGeneric( name = "jDUreport",
             def = function (asd, 
                             minAvgCounts                       = 5, 
@@ -1345,18 +1192,6 @@ setMethod( f = 'subset',
            signature = 'ASpliCounts',
            def = function( x, targets, select ) { .subset.ASpliCounts( x, targets, select ) }  )
 
-setGeneric( 
-  name = 'filterDU',
-  def = function( du, what = c( 'genes','bins','junctions'), fdr = 1, 
-                  logFC = 0, absLogFC = TRUE, logFCgreater = TRUE ) standardGeneric('filterDU') )
-
-setMethod(
-  f = 'filterDU',
-  signature = "ASpliDU",
-  definition = function( du, what = c( 'genes','bins','junctions'), fdr = 1, 
-                         logFC = 0, absLogFC = TRUE, logFCgreater = TRUE ) {
-    .Deprecated("", msg = "filterDU is deprecated and is no longer needed. See ASpli vignette for new pipeline.")
-    .filter.ASpliDU( du, what, fdr, logFC, absLogFC, logFCgreater ) } )
 
 
 # ---------------------------------------------------------------------------- #
@@ -1458,17 +1293,6 @@ setMethod(
     
   }
 )
-
-
-setGeneric( name = 'mergeBinDUAS',
-            def = function( du, as, targets, contrast = NULL  ) 
-              standardGeneric( 'mergeBinDUAS' ))
-
-setMethod( f = 'mergeBinDUAS',
-           signature = c( 'ASpliDU', 'ASpliAS' ),
-           definition = function( du, as, targets, contrast = NULL  ) {
-             .Deprecated("", msg = "mergeBinDUAS is deprecated and is no longer needed. See ASpli vignette for new pipeline.")
-             .mergeBinDUAS( du, as, targets, contrast ) } )
 
 
 setGeneric( name = "exportSplicingReports", 
@@ -1917,148 +1741,4 @@ setMethod(
                useBarplots, barWidth, barSpacer, las.x, useHCColors, legendAtSide,
                outfolder, outfileType, deviceOpt )
   } 
-)
-# ---------------------------------------------------------------------------- # 
-# ---------------------------------------------------------------------------- #
-# plotGenomicRegions
-setGeneric( 
-  name = "plotGenomicRegions", 
-  def = function( 
-    #counts,
-    features,
-    x, 
-    genomeTxDb, 
-    targets, 
-    xIsBin = TRUE, 
-    layout = 'auto', 
-    colors = 'auto', 
-    plotTitles = 'auto', 
-    sashimi = FALSE, 
-    zoomOnBins= FALSE, 
-    deviceOpt = NULL, 
-    highLightBin = TRUE, 
-    outfolder = NULL, 
-    outfileType = 'png', 
-    mainFontSize = 24, 
-    annotationHeight = 0.2,
-    annotationCol = 'black', 
-    annotationFill = 'gray', 
-    annotationColTitle = 'black',
-    preMergedBAMs = NULL,
-    useTransparency = FALSE,
-    tempFolder = 'tmp',
-    avoidReMergeBams = FALSE,
-    verbose = TRUE ) standardGeneric( "plotGenomicRegions" ) )
-
-setMethod(
-  f = "plotGenomicRegions",
-  signature = "ASpliFeatures",
-  definition = function ( 
-    #        counts,
-    features, 
-    x, 
-    genomeTxDb, 
-    targets, 
-    xIsBin = TRUE, 
-    layout = 'auto', 
-    colors = 'auto', 
-    plotTitles = 'auto', 
-    sashimi = FALSE, 
-    zoomOnBins= FALSE, 
-    deviceOpt = NULL, 
-    highLightBin = TRUE, 
-    outfolder = NULL, 
-    outfileType = 'png', 
-    mainFontSize = 24, 
-    annotationHeight = 0.2, 
-    annotationCol = 'black', 
-    annotationFill = 'gray', 
-    annotationColTitle = 'black',
-    preMergedBAMs = NULL,
-    useTransparency = FALSE,
-    tempFolder = 'tmp',
-    avoidReMergeBams = FALSE,
-    verbose = TRUE ) {
-    
-    .Deprecated("", msg = "plotGenomicRegions is deprecated and is no longer needed. See ASpli vignette for new pipeline.")
-    
-    .plotGenomicRegions(
-      x, 
-      genomeTxDb, 
-      #              counts,
-      features,
-      targets, 
-      xIsBin, 
-      layout, 
-      colors, 
-      plotTitles, 
-      sashimi, 
-      zoomOnBins, 
-      deviceOpt, 
-      highLightBin, 
-      outfolder, 
-      outfileType,
-      mainFontSize, 
-      annotationHeight, 
-      annotationCol, 
-      annotationFill, 
-      annotationColTitle,
-      preMergedBAMs,
-      useTransparency,
-      tempFolder,
-      avoidReMergeBams ,
-      verbose )
-  }
-)
-# ---------------------------------------------------------------------------- #
-#agrego para no romper el old pipeline
-# TODO:  Es necesario agregar todos los parametros con valores por default en
-# la firma del metodo ? 
-setGeneric (
-  name = "DUreport",
-  def = function( counts, 
-                  targets, 
-                  minGenReads  = 10,
-                  minBinReads  = 5,
-                  minRds = 0.05,
-                  offset = FALSE,
-                  offsetAggregateMode = c( "geneMode", "binMode" )[1],
-                  offsetUseFitGeneX = TRUE,
-                  contrast = NULL,
-                  forceGLM = FALSE,
-                  ignoreExternal = TRUE,
-                  ignoreIo = TRUE, 
-                  ignoreI = FALSE,
-                  filterWithContrasted = FALSE,
-                  verbose = FALSE
-  ) standardGeneric("DUreport") )
-
-#setGeneric (
-#  name = "DUreport_DEXSeq",
-#  def = function ( counts, ... ) standardGeneric("DUreport_DEXSeq") )
-
-setMethod(
-  f = "DUreport",
-  signature = "ASpliCounts",
-  definition = function( counts, 
-                         targets, 
-                         minGenReads  = 10,
-                         minBinReads  = 5,
-                         minRds = 0.05,
-                         offset = FALSE,
-                         offsetAggregateMode = c( "geneMode", "binMode" )[1],
-                         offsetUseFitGeneX = TRUE,
-                         contrast = NULL,
-                         forceGLM = FALSE,
-                         ignoreExternal = TRUE,
-                         ignoreIo = TRUE, 
-                         ignoreI = FALSE,
-                         filterWithContrasted = FALSE,
-                         verbose = FALSE
-  ) { 
-    .Deprecated(c("DUreport.offset", "DUreport.norm"))
-    .DUreport( counts, targets, minGenReads, minBinReads, minRds, offset, 
-               offsetAggregateMode, offsetUseFitGeneX, contrast, forceGLM,
-               ignoreExternal, ignoreIo, ignoreI, filterWithContrasted, verbose  )
-  }
 )

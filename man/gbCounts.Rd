@@ -1,7 +1,6 @@
 \name{gbCounts}
 
 \alias{gbCounts}
-\alias{readCounts}
 
 \title{
   Summarize read overlaps

@@ -1,7 +1,4 @@
-loadBAM <- function( targets, cores = 1, libType, strandMode ) {
-  if(!is.null(cores)){ #Uses cores as flag for ASpli version. NULL means v2
-    .Deprecated("", msg = "loadBAM is deprecated and is no longer needed. See ?gbCounts.")
-   }
+.loadBAM <- function( targets, libType, strandMode ) {
     datac <- lapply( as.character(targets$bam), function(x){
 
     #option to load as SE o PE, default PE:
