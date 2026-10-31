@@ -45,30 +45,18 @@ Returns dataframes with counts by sample and genomic metadata
 \author{ Estefania Mancini, Andres Rabinovich, Javier Iserte, Marcelo Yanovsky, Ariel Chernomoretz  }
 
 \examples{
+# Create an empty ASpliCounts object and access its (empty) data tables.
+# See the ASpli vignette for a complete workflow producing a populated object.
+counts <- new( 'ASpliCounts' )
 
-# Get data tables from an ASpliCounts object
-
-#counts <- aspliCountsExample() 
-
-#cb1  <- countsb(counts)
-#ce1i <- countse1i(counts)
-#cg   <- countsg(counts)
-#cie2 <- countsie2(counts)
-#cj   <- countsj(counts)
-#rg   <- rdsg(counts)
-#rb   <- rdsb(counts)
-#co   <- condition.order(counts)
-#tg   <- targets(counts)
+countsg( counts )
+countsb( counts )
+countsj( counts )
+rdsg( counts )
+rdsb( counts )
 
 # Set data tables to an ASpliCounts object
-
-#countsb(counts)   <- cb1
-#countse1i(counts) <- ce1i
-#countsg(counts)   <- cg
-#countsie2(counts) <- cie2
-#countsj(counts)   <- cj
-#rdsg(counts)      <- rg
-#rdsb(counts)      <- rb
+countsg( counts ) <- data.frame()
 }
 
 

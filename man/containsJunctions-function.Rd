@@ -31,7 +31,8 @@
 \author{ Estefania Mancini, Andres Rabinovich, Javier Iserte, Marcelo Yanovsky, Ariel Chernomoretz  }
 
 \examples{
-# see ASpli package
-
+du <- new( 'ASpliDU' )
+containsGenesAndBins( du )
+containsJunctions( du )
 }
 

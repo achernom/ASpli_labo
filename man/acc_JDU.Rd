@@ -35,5 +35,14 @@
 
 \author{ Estefania Mancini, Andres Rabinovich, Javier Iserte, Marcelo Yanovsky, Ariel Chernomoretz  }
 
-
-
+\examples{
+# Empty object; see ?jDUreport for a complete example.
+jdu <- new( 'ASpliJDU' )
+anchorc( jdu )
+localec( jdu )
+anchorj( jdu )
+localej( jdu )
+jir( jdu )
+jes( jdu )
+jalt( jdu )
+}

@@ -1,3 +1,11 @@
+# Mean of the counts of each row over the samples of every requested condition.
+# Returns a matrix with one row per element of 'rows' and one column per condition.
+.meanCountsPerCondition <- function ( counts, rows, targets, conditions ) {
+  vapply( conditions, function ( i ) {
+    rowMeans( counts[ rows, rownames( targets )[ targets$condition %in% i ], drop = FALSE ] )
+  }, numeric( length( rows ) ) )
+}
+
 .junctionDUreportExt <- function(
     asd, 
     minAvgCounts                       = 5, 
@@ -105,7 +113,7 @@
 
   #for every junction, the maximal participation value observed across contrasted condiction
   #is considered.
-  mean.counts.per.condition     <- sapply(getConditions(targets)[contrast != 0], function(i){return(rowMeans(countData[rownames(jPSI), rownames(targets)[targets$condition %in% i], drop = FALSE]))})
+  mean.counts.per.condition     <- .meanCountsPerCondition(countData, rownames(jPSI), targets, getConditions(targets)[contrast != 0])
   participation                 <- aggregate(mean.counts.per.condition ~ jPSI$locus, FUN = function(r){return(rowSums(t(r)))})
   rownames(participation)       <- participation$locus
   participation                 <- participation[jPSI$locus, -1]
@@ -219,9 +227,9 @@
   }
 
   #Add J1, J2 and J3 count data
-  jPIR      <- cbind(jPIR, countsJ1 = sapply(getConditions(targets)[contrast != 0], function(i){return(rowMeans(Js$J1[paste0(rownames(jPIR), ".1"), rownames(targets)[targets$condition %in% i], drop = FALSE]))}))
-  jPIR      <- cbind(jPIR, countsJ2 = sapply(getConditions(targets)[contrast != 0], function(i){return(rowMeans(Js$J2[paste0(rownames(jPIR), ".2"), rownames(targets)[targets$condition %in% i], drop = FALSE]))}))
-  jPIR      <- cbind(jPIR, countsJ3 = sapply(getConditions(targets)[contrast != 0], function(i){return(rowMeans(Js$J3[rownames(jPIR), rownames(targets)[targets$condition %in% i], drop = FALSE]))}))
+  jPIR      <- cbind(jPIR, countsJ1 = .meanCountsPerCondition(Js$J1, paste0(rownames(jPIR), ".1"), targets, getConditions(targets)[contrast != 0]))
+  jPIR      <- cbind(jPIR, countsJ2 = .meanCountsPerCondition(Js$J2, paste0(rownames(jPIR), ".2"), targets, getConditions(targets)[contrast != 0]))
+  jPIR      <- cbind(jPIR, countsJ3 = .meanCountsPerCondition(Js$J3, rownames(jPIR), targets, getConditions(targets)[contrast != 0]))
   
   #dPIR estimation
   icols                 <- which(colnames(data) %in% getConditions(targets))
@@ -336,9 +344,9 @@
   jirPIR$multiplicity[grep(";", jirPIR$J3)] <- "Yes"
   
   #Sacamos "cluster" de anchorj 
-  jirPIR        <- cbind(jirPIR, countsJ1 = sapply(getConditions(targets)[contrast != 0], function(i){return(rowMeans(Js$J1[paste0(rownames(jirPIR), ".1"), rownames(targets)[targets$condition %in% i], drop = FALSE]))}))
-  jirPIR        <- cbind(jirPIR, countsJ2 = sapply(getConditions(targets)[contrast != 0], function(i){return(rowMeans(Js$J2[paste0(rownames(jirPIR), ".2"), rownames(targets)[targets$condition %in% i], drop = FALSE]))}))
-  jirPIR        <- cbind(jirPIR, countsJ3 = sapply(getConditions(targets)[contrast != 0], function(i){return(rowMeans(Js$J3[rownames(jirPIR), rownames(targets)[targets$condition %in% i], drop = FALSE]))}))
+  jirPIR        <- cbind(jirPIR, countsJ1 = .meanCountsPerCondition(Js$J1, paste0(rownames(jirPIR), ".1"), targets, getConditions(targets)[contrast != 0]))
+  jirPIR        <- cbind(jirPIR, countsJ2 = .meanCountsPerCondition(Js$J2, paste0(rownames(jirPIR), ".2"), targets, getConditions(targets)[contrast != 0]))
+  jirPIR        <- cbind(jirPIR, countsJ3 = .meanCountsPerCondition(Js$J3, rownames(jirPIR), targets, getConditions(targets)[contrast != 0]))
   
   #jirPIR$dPIR   <- apply(jirPIR,1,function(x){sum(x*contrast)}) 
   #participation        <- jirPIR$countsJ3/(jirPIR$countsJ1 + jirPIR$countsJ2 + jirPIR$countsJ3)
@@ -416,9 +424,9 @@
   jesPSI$multiplicity   <- "No"
   jesPSI$multiplicity[grep(";", jesPSI$J3)] <- "Yes"
   
-  jesPSI      <- cbind(jesPSI, countsJ1 = sapply(getConditions(targets)[contrast != 0], function(i){return(rowMeans(Js$J1[paste0(rownames(jesPSI), ".1"), rownames(targets)[targets$condition %in% i], drop = FALSE]))}))
-  jesPSI      <- cbind(jesPSI, countsJ2 = sapply(getConditions(targets)[contrast != 0], function(i){return(rowMeans(Js$J2[paste0(rownames(jesPSI), ".2"), rownames(targets)[targets$condition %in% i], drop = FALSE]))}))
-  jesPSI      <- cbind(jesPSI, countsJ3 = sapply(getConditions(targets)[contrast != 0], function(i){return(rowMeans(Js$J3[rownames(jesPSI), rownames(targets)[targets$condition %in% i], drop = FALSE]))}))
+  jesPSI      <- cbind(jesPSI, countsJ1 = .meanCountsPerCondition(Js$J1, paste0(rownames(jesPSI), ".1"), targets, getConditions(targets)[contrast != 0]))
+  jesPSI      <- cbind(jesPSI, countsJ2 = .meanCountsPerCondition(Js$J2, paste0(rownames(jesPSI), ".2"), targets, getConditions(targets)[contrast != 0]))
+  jesPSI      <- cbind(jesPSI, countsJ3 = .meanCountsPerCondition(Js$J3, rownames(jesPSI), targets, getConditions(targets)[contrast != 0]))
   
   jes(jdu)              <- jesPSI
   
@@ -487,9 +495,9 @@
   jaltPSI$multiplicity[grep(";", jaltPSI$J3)] <- "Yes"
 
   
-  jaltPSI      <- cbind(jaltPSI, countsJ1 = sapply(getConditions(targets)[contrast != 0], function(i){return(rowMeans(Js$J1[paste0(rownames(jaltPSI), ".1"), rownames(targets)[targets$condition %in% i], drop = FALSE]))}))
-  jaltPSI      <- cbind(jaltPSI, countsJ2 = sapply(getConditions(targets)[contrast != 0], function(i){return(rowMeans(Js$J2[paste0(rownames(jaltPSI), ".2"), rownames(targets)[targets$condition %in% i], drop = FALSE]))}))
-  jaltPSI      <- cbind(jaltPSI, countsJ3 = sapply(getConditions(targets)[contrast != 0], function(i){return(rowMeans(Js$J3[rownames(jaltPSI), rownames(targets)[targets$condition %in% i], drop = FALSE]))}))
+  jaltPSI      <- cbind(jaltPSI, countsJ1 = .meanCountsPerCondition(Js$J1, paste0(rownames(jaltPSI), ".1"), targets, getConditions(targets)[contrast != 0]))
+  jaltPSI      <- cbind(jaltPSI, countsJ2 = .meanCountsPerCondition(Js$J2, paste0(rownames(jaltPSI), ".2"), targets, getConditions(targets)[contrast != 0]))
+  jaltPSI      <- cbind(jaltPSI, countsJ3 = .meanCountsPerCondition(Js$J3, rownames(jaltPSI), targets, getConditions(targets)[contrast != 0]))
 
   jalt(jdu)             <- jaltPSI
   
@@ -771,7 +779,7 @@
     warning("Can't run uniformity test without merged bams.")
     return(rep(NA, length=nrow(data))) 
   }
-  if(class(mergedBams)=="data.frame"){
+  if(is(mergedBams, "data.frame")){
     mergedBams <- as.character(mergedBams[,1])
   }
   if(!is.character(mergedBams)){
@@ -796,7 +804,7 @@
   # +     close(pb
   i = 0
   pb <- txtProgressBar(min=1,max=length(ii),style=3)
-  Uniformity[ii] <- sapply(ii, function(p){
+  Uniformity[ii] <- vapply(ii, function(p){
     #if(i %% 100 == 0) print(paste(i/length(elementos), "%"))
     i <- i + 1
     setTxtProgressBar(pb,i)
@@ -824,10 +832,10 @@
       a      <- mean(c(ad[1:10], ad[(length(ad)-11):length(ad)]))
       return(b/a)
     }else{
-      return(NA)
+      return(NA_real_)
     }
     #bamClose(reader)
-  })
+  }, numeric(1))
   close(pb)
   
   #for(i in 1:length(readers)){

@@ -25,5 +25,10 @@
 
 \author{ Estefania Mancini, Andres Rabinovich, Javier Iserte, Marcelo Yanovsky, Ariel Chernomoretz  }
 
-
-
+\examples{
+# Empty object; see ?splicingReport for a complete example.
+sr <- new( 'ASpliSplicingReport' )
+binbased( sr )
+localebased( sr )
+anchorbased( sr )
+}

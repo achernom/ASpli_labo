@@ -41,3 +41,11 @@
   \code{ \link{DUreport.norm}},
   \code{ \link{DUreport.offset}}
 }
+
+\examples{
+# Write an (empty) ASpliCounts object into a temporary folder
+counts <- new( 'ASpliCounts' )
+outdir <- file.path( tempdir(), "counts" )
+writeCounts( counts, output.dir = outdir )
+list.files( outdir )
+}

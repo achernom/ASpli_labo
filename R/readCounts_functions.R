@@ -8,8 +8,8 @@
   
   # Create result dataframe
   effectiveGeneLength <- sum( width( feature ) )
-  geneStarts          <- sapply( start( feature ), min )
-  geneEnds            <- sapply( end( feature ), max)
+  geneStarts          <- vapply( start( feature ), min, integer(1) )
+  geneEnds            <- vapply( end( feature ), max, integer(1) )
   geneWidths          <- geneEnds - geneStarts + 1
   strand              <- as.character( unlist(runValue( strand( feature ) ) ))
   

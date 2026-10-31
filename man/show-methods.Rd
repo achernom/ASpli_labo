@@ -16,5 +16,12 @@
 \details{ Display a summary of data contained in ASpliObjects }
 
 
+\value{Called for its side effect of printing a summary of the object to the console; returns \code{NULL} invisibly.}
+
 \author{ Estefania Mancini, Andres Rabinovich, Javier Iserte, Marcelo Yanovsky, Ariel Chernomoretz  }
 
+\examples{
+features <- aspliFeaturesExample()
+features
+show( features )
+}

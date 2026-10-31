@@ -41,3 +41,5 @@
 
 
  
+
+\value{None. These functions only emit a deprecation warning and are scheduled for removal.}

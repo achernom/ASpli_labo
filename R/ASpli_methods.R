@@ -1450,7 +1450,7 @@ setMethod(
     
     for(slotName in slotNames(sr)){
       # Export Genes  
-      if(class(slot(sr, slotName)) == "data.frame"){
+      if(is(slot(sr, slotName), "data.frame")){
         write.table( slot(sr, slotName), paste(output.dir, paste0(slotName, ".txt"), sep="/"), sep = "\t", 
                      quote = FALSE, col.names = TRUE, row.names = FALSE )
       }
@@ -1494,7 +1494,7 @@ setMethod(
     
     
     for(s in slotNames(sr)){
-      if(class(slot(sr, s)) == "data.frame"){
+      if(is(slot(sr, s), "data.frame")){
         b <- slot(sr, s)
         if(s == "binbased"){
             b <- b[union(which(b$bin.fdr < maxBinFDR), which(b$junction.fdr < maxJunctionFDR)), ]
@@ -1508,7 +1508,7 @@ setMethod(
           cat("Not a single",s,"event passed the filtering step. You might consider relaxing thresholds.\n")
           next
         }
-        columnas_numericas <- which(sapply(b, class) == "numeric")
+        columnas_numericas <- which(vapply(b, function(x) identical(class(x), "numeric"), logical(1)))
 	      b[, columnas_numericas] <- apply(b[, columnas_numericas], 2, function(s){return(signif(as.numeric(s), digits = 4))})
         titulo <- paste0('ASpli: ', s, ". Contrasts: ", paste(names(sr@contrast)[sr@contrast != 0], collapse = " - "))
         if(s != "localebased"){
@@ -1532,7 +1532,7 @@ setMethod(
           clusters  <- unique(b[, c("junction.cluster", "cluster.locus", "cluster.size", "cluster.LR", "cluster.pvalue", "cluster.fdr", "cluster.range", "cluster.participation")])
           
           b <- slot(sr, s)
-          columnas_numericas <- which(sapply(b, class) == "numeric")
+          columnas_numericas <- which(vapply(b, function(x) identical(class(x), "numeric"), logical(1)))
           b[, columnas_numericas] <- apply(b[, columnas_numericas], 2, function(s){return(signif(as.numeric(s), digits = 4))})
           
           junctions <- unique(b[, c("junction.cluster", colnames(b)[!colnames(b) %in% colnames(clusters)])])
@@ -1627,23 +1627,23 @@ setMethod(
   definition = function( is, output.dir="is", sr, counts, features, asd, mergedBams, jCompletelyIncluded = FALSE, zoomRegion = 1.5, useLog = FALSE, tcex = 1, ntop = NULL, 
                          openInBrowser = FALSE, makeGraphs = TRUE,bforce=FALSE, analysis_name= NULL) {
 
-    if(class(is) != "ASpliIntegratedSignals"){
+    if(!is(is, "ASpliIntegratedSignals")){
       stop("is must be an ASpliIntegratedSignals object")
     }
         
-    if(class(sr) != "ASpliSplicingReport"){
+    if(!is(sr, "ASpliSplicingReport")){
       stop("sr must be an ASpliSplicingReport object")
     }
 
-    if(class(counts) != "ASpliCounts"){
+    if(!is(counts, "ASpliCounts")){
       stop("counts must be an ASpliCounts object")
     }
 
-    if(class(features) != "ASpliFeatures"){
+    if(!is(features, "ASpliFeatures")){
       stop("features must be an ASpliFeatures object")
     }
     
-    if(class(asd) != "ASpliAS"){
+    if(!is(asd, "ASpliAS")){
       stop("asd must be an ASpliAS object")
     }
     

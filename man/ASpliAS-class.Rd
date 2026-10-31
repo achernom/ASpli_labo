@@ -66,3 +66,7 @@
             \code{\link{junctionsPIR}},
             \code{\link{junctionsPJU}}
 }
+
+\examples{
+showClass( "ASpliAS" )
+}

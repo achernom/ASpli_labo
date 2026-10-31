@@ -18,8 +18,16 @@
 }
 
 
+\value{An \code{\linkS4class{ASpliFeatures}} object. See \code{\link{binGenome}}.}
+
 \author{Estefania Mancini, Javier Iserte, Marcelo Yanovsky, Ariel Chernomoretz }
 \seealso{ \code{\link{featuresg}, \link{featuresb} , \link{featuresj} 
 } 
 }
 
+\examples{
+library(GenomicFeatures)
+genomeTxDb <- txdbmaker::makeTxDbFromGFF( aspliExampleGTF() )
+features <- binGenome( genomeTxDb )
+features
+}

@@ -11,13 +11,13 @@
 .splicingReport <- function(bdu, jdu, counts){
   
   #Sanity check
-  if(class(bdu) != "ASpliDU"){
+  if(!is(bdu, "ASpliDU")){
     stop("bdu must be an ASpliDU object, try running gbDUreport first") 
   }
-  if(class(jdu) != "ASpliJDU"){
+  if(!is(jdu, "ASpliJDU")){
     stop("jdu must be an ASpliJDU object, try running jDUreport first") 
   }
-  if(class(counts) != "ASpliCounts"){
+  if(!is(counts, "ASpliCounts")){
     stop("counts must be an ASpliCounts object, try running gbCounts first") 
   }  
 
@@ -457,11 +457,11 @@
                             otherSources,
                             overlapType){
   
-  if(class(sr) != "ASpliSplicingReport"){
+  if(!is(sr, "ASpliSplicingReport")){
     stop("sr must be an ASpliSplicingReport object")   
   }
   
-  if(class(asd) != "ASpliAS"){
+  if(!is(asd, "ASpliAS")){
     stop("asd must be an ASpliAS object") 
   }
   
@@ -570,7 +570,7 @@
   # Overlap estimation (order matters)
   #
   laux  <- list(b=binbased,bjs=binsupport,jl=localebased,ja=anchorbased)
-  if(class(otherSources) == "GRanges") laux$otherSources = otherSources
+  if(is(otherSources, "GRanges")) laux$otherSources = otherSources
   lover <- list()
   for(i in seq_along(laux)){
     for(j in (i+1):length(laux)){
@@ -597,7 +597,7 @@
   #Genero overlaps_aux: con region y 0/1 si hay evidencia
   overlaps     <- rbindlist(lover, use.names = FALSE)
   overlaps_aux <- data.table(region=character(), b=numeric(), bjs=numeric(), ja=numeric(), jl=numeric())
-  if(class(otherSources) == "GRanges") overlaps_aux$otherSources = numeric()
+  if(is(otherSources, "GRanges")) overlaps_aux$otherSources = numeric()
   for(i in unique(c(overlaps$b, overlaps$bjs))){
     j <- c(i, overlaps$bjs[overlaps$b == i], overlaps$b[overlaps$bjs == i])
     d <- data.table(region = i,
@@ -605,7 +605,7 @@
                     bjs=as.numeric(length(grep("bjs.", j,fixed=TRUE)) > 0),
                     ja=as.numeric(length(grep("ja.", j,fixed=TRUE)) > 0),
                     jl=as.numeric(length(grep("jl.", j,fixed=TRUE)) > 0))
-    if(class(otherSources) == "GRanges") d$otherSources = as.numeric(length(grep("otherSources.", j,fixed=TRUE)) > 0)
+    if(is(otherSources, "GRanges")) d$otherSources = as.numeric(length(grep("otherSources.", j,fixed=TRUE)) > 0)
     overlaps_aux <- rbindlist(list(overlaps_aux, d))
   }
   
@@ -615,7 +615,7 @@
     if(length(nooverlap) > 0){
       d <- data.table(region = nooverlap,
                       b=0,bjs=0,ja=1,jl=0)
-      if(class(otherSources) == "GRanges") d$otherSources = 0    
+      if(is(otherSources, "GRanges")) d$otherSources = 0    
       overlaps_aux <- rbindlist(list(overlaps_aux, d))
     }  
   }
@@ -626,7 +626,7 @@
     if(length(nooverlap) > 0){
       d <- data.table(region = nooverlap,
                       b=0,bjs=0,ja=0,jl=1)
-      if(class(otherSources) == "GRanges") d$otherSources = 0
+      if(is(otherSources, "GRanges")) d$otherSources = 0
       overlaps_aux <- rbindlist(list(overlaps_aux, d))
     }
   }
@@ -637,7 +637,7 @@
     if(length(nooverlap) > 0){
       d <- data.table(region = nooverlap,
                       b=1,bjs=0,ja=0,jl=0)
-      if(class(otherSources) == "GRanges") d$otherSources = 0
+      if(is(otherSources, "GRanges")) d$otherSources = 0
       overlaps_aux <- rbindlist(list(overlaps_aux, d))
     }
   }
@@ -648,13 +648,13 @@
     if(length(nooverlap) > 0){
       d <- data.table(region = nooverlap,
                       b=0,bjs=1,ja=0,jl=0)
-      if(class(otherSources) == "GRanges") d$otherSources = 0
+      if(is(otherSources, "GRanges")) d$otherSources = 0
       overlaps_aux <- rbindlist(list(overlaps_aux, d))
     }
   }
   
   #Other sources que no tienen overlap con otra clase de eventos
-  if(class(otherSources) == "GRanges"){
+  if(is(otherSources, "GRanges")){
     if(length(otherSources) > 0){
       nooverlap <- setdiff(paste0("otherSources.", (1:length(otherSources))), overlaps_aux$region[grep("otherSources.", overlaps_aux$region,fixed=TRUE)])
       if(length(nooverlap) > 0){
@@ -693,7 +693,7 @@
     overlaps_aux$region[i] <- paste0(L$seqnames, ":", L$start, "-", L$end)
   }
   
-  if(class(otherSources) == "GRanges"){
+  if(is(otherSources, "GRanges")){
     i <- grep("otherSources.", overlaps_aux$region,fixed=TRUE)
     if(length(i)){
       L <- as.data.frame(otherSources[as.numeric(strsplit2(overlaps_aux$region[i], "otherSources.")[, 2])])
@@ -777,7 +777,7 @@
 
     #Reordenamos las columnas
     nombre_de_seniales <- c("b", "bjs", "ja", "jl")
-    if(class(otherSources) == "GRanges"){
+    if(is(otherSources, "GRanges")){
       nombre_de_seniales <- c(nombre_de_seniales, "otherSources")
     }
     aa <- aa[, c("region", "locus", "bin.event", nombre_de_seniales, "bin", "feature", "J3", "binreg"), with = FALSE]

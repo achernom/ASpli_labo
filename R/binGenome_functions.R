@@ -32,8 +32,8 @@
 .createGRangesGenes.getGeneCoordinates <- function ( binsGRangesList , aTxDb) {
   
   geneChr    <- as.character( seqnames( genes( aTxDb ) ) )
-  geneStarts <- sapply( start( binsGRangesList ), min )
-  geneEnds   <- sapply( end(   binsGRangesList ), max )
+  geneStarts <- vapply( start( binsGRangesList ), min, integer(1) )
+  geneEnds   <- vapply( end(   binsGRangesList ), max, integer(1) )
   
   geneCoordinates <- paste0( geneChr, ':', geneStarts, '-', geneEnds )
   
@@ -43,11 +43,11 @@
 # deprecated
 .createGRangesGenes.getGeneCoordinates.old <- function ( binsGRangesList ) {
   
-  chromosome                <- sapply( seqnames( binsGRangesList ),unique )
+  chromosome                <- vapply( seqnames( binsGRangesList ), function( s ) as.character( unique( s ) ), character(1) )
   chromosome                <- as.character( chromosome )
   
-  geneStarts             <- sapply( start( binsGRangesList ), min )
-  geneEnds               <- sapply( end( binsGRangesList ), max )
+  geneStarts             <- vapply( start( binsGRangesList ), min, integer(1) )
+  geneEnds               <- vapply( end( binsGRangesList ), max, integer(1) )
   
   browser                <- paste( chromosome, geneStarts, sep=":" ) 
   

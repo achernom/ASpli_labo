@@ -191,7 +191,7 @@
   if ( ! justOneFactor ) {
     
     xTicksLabels <- rep( apply( gridPanels, 1, 
-            function( x ) paste0(x,collapse=  ".") ), sapply( data, length  ) )
+            function( x ) paste0(x,collapse=  ".") ), vapply( data, length, integer(1) ) )
     xTicksLabels <- apply( gridPanels, 1, function( x ) paste0(x,collapse=  ".") )
     xTicksLabels <- expand.grid( factorsAndValues[[ mainFactorIndex]], xTicksLabels )
     xTicksLabels <- paste0( xTicksLabels[,2] ,".",  xTicksLabels[,1] )
@@ -216,8 +216,8 @@
       factorsAndValues, mainFactorIndex, data )
   
   # Get the y axis minimum and maximum values. Used to scale the plots correctly.
-  maxValue <- max ( sapply ( data, max ))
-  minValue <- min ( sapply ( data, min ))
+  maxValue <- max ( vapply ( data, max, numeric(1) ))
+  minValue <- min ( vapply ( data, min, numeric(1) ))
   
   # Make a unique vector will all data
   dataCons <- Reduce( function( a, b) { a <- append( a, b )}, data )

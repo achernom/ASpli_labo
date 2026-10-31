@@ -30,9 +30,9 @@ no tocar `upstream`. Los commits de Claude llevan la línea Co-Authored-By está
   (clases, genéricos y métodos `setGeneric`/`setMethod`), `splicingReport_functions.R`,
   `DUreport_functions.R`, `jDUreport_functions.R`
 - `man/*.Rd` escritos a mano (no hay roxygen): si se cambia una firma, editar el `.Rd` a mano
-- `NAMESPACE` a mano: `exportPattern("^[[:alpha:]]+")` exporta todo lo que empiece con letra.
-  Los helpers internos deben empezar con `.`
-- `inst/extdata/`: 12 BAMs mini + `genes.mini.gtf` (10 genes artificiales). No modificar
+- `NAMESPACE` a mano, con `export()` explícito (ya no hay `exportPattern`). Una función o genérico
+  nuevo exportado hay que agregarlo a mano a `export()`/`exportMethods()`; los helpers internos empiezan con `.`
+- `inst/extdata/`: 12 BAMs mini + `genes.mini.gtf` (10 genes artificiales). No modificar. Faltan los archivos `counts.*`, `du.*`, `as.*` que esperan `aspliCountsExample()`, `aspliDUexample1()`, etc. (esas funciones están rotas)
 - `inst/doc/ASpli.Rnw`: viñeta (Sweave). Pipeline del quick start: `binGenome` -> `gbCounts`
   -> `jCounts` -> `gbDUreport` -> `jDUreport` -> `splicingReport` -> `integrateSignals`
   -> `exportIntegratedSignals`

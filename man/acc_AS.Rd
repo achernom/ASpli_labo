@@ -36,28 +36,18 @@ junctionsPJU( x )
 \author{ Estefania Mancini, Andres Rabinovich, Javier Iserte, Marcelo Yanovsky, Ariel Chernomoretz  }
 
 \examples{
+# Create an empty ASpliAS object and access its (empty) data tables.
+# See the ASpli vignette for a complete workflow producing a populated object.
+as <- new( 'ASpliAS' )
 
-# Accessing data tables from an ASpliAS object
+altPSI( as )
+esPSI( as )
+irPIR( as )
+joint( as )
+junctionsPIR( as )
+junctionsPJU( as )
 
-#as <- aspliASexample()
-
-#ap <- altPSI(as)
-#ep <- esPSI(as)
-#ip <- irPIR(as)
-#j  <- joint(as)
-#jpi <- junctionsPIR(as)
-#jps <- junctionsPJU(as)
-
-# Setting data tables to an ASpliAS object
-
-#as2 <- new( 'ASpliAS' )
-
-#altPSI( as2 )  <- ap
-#esPSI( as2 )  <- ep
-#irPIR( as2 )  <- ip
-#joint( as2 )  <- j
-#junctionsPIR( as2 )  <- jpi
-#junctionsPJU( as2 )  <- jps
-
+# Set data tables to an ASpliAS object
+altPSI( as ) <- data.frame()
 }
 

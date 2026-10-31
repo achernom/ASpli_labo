@@ -46,3 +46,7 @@
 }
 
 \author{ Andres Rabinovich, Estefania Mancini, Javier Iserte, Marcelo Yanovsky, Ariel Chernomoretz  }
+
+\examples{
+showClass( "ASpliJDU" )
+}

@@ -38,16 +38,16 @@
 \author{ Estefania Mancini, Andres Rabinovich, Javier Iserte, Marcelo Yanovsky, Ariel Chernomoretz  }
 
 \examples{
-  #as <- aspliASexample()
-  #bams <- aspliBamsExample()
-  #counts <- aspliCountsExample()
-  #du1 <- aspliDUexample1()
-  #du2 <- aspliDUexample2()
-  #bamfiles <- aspliExampleBamList()
-  #gtffile <- aspliExampleGTF()
-  #features <- aspliFeaturesExample()
-  #jdu <- aspliJunctionDUexample()
-  #targets <-aspliTargetsExample()
+gtffile  <- aspliExampleGTF()
+bamfiles <- aspliExampleBamList()
+targets  <- aspliTargetsExample()
+features <- aspliFeaturesExample()
+#as <- aspliASexample()
+#bams <- aspliBamsExample()
+#counts <- aspliCountsExample()
+#du1 <- aspliDUexample1()
+#du2 <- aspliDUexample2()
+#jdu <- aspliJunctionDUexample()
 }
 
 

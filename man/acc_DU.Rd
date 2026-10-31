@@ -25,21 +25,16 @@
 \author{ Estefania Mancini, Andres Rabinovich, Javier Iserte, Marcelo Yanovsky, Ariel Chernomoretz  }
 
 \examples{
-  
-  # Get data tables from an ASpliDU object
-  
-  #du <- aspliDUexample1()
-  
-  #gde <- genesDE( du )
-  #bdu <- binsDU( du )
-  #jdu <- junctionsDU( du )
-  
-  # Set data tables to an ASpliDU object 
-  
-  #genesDE( du )     <- gde
-  #binsDU( du )      <- bdu
-  #junctionsDU( du ) <- jdu
+# Create an empty ASpliDU object and access its (empty) data tables.
+# See the ASpli vignette for a complete workflow producing a populated object.
+du <- new( 'ASpliDU' )
 
+genesDE( du )
+binsDU( du )
+junctionsDU( du )
+
+# Set data tables to an ASpliDU object
+genesDE( du ) <- data.frame()
 }
 
 

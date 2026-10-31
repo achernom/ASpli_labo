@@ -51,11 +51,11 @@
   my.make.unique <- function(s, sep = "_"){
     tab <- unique(s)
     tab <- setNames(rep(1, length(tab)), tab)
-    sapply(s, function(ss){
+    vapply(s, function(ss){
       sss <- paste(ss, tab[ss], sep = sep)
       tab[ss] <<- tab[ss] + 1
       return(sss)
-    })
+    }, character(1))
   }
   
   #Do we need to generate the names or do they already exist? If they dont exists, they are a sequence of numbers from 1 to nrow(targets)
