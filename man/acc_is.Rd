@@ -22,8 +22,7 @@
 \author{ Estefania Mancini, Andres Rabinovich, Javier Iserte, Marcelo Yanovsky, Ariel Chernomoretz }
 
 \examples{
-# Empty object; see ?integrateSignals for a complete example.
-is <- new( 'ASpliIntegratedSignals' )
+is <- aspliIntegratedSignalsExample()
 signals( is )
 filters( is )
 }

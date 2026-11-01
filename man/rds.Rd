@@ -28,29 +28,13 @@
 }
 
 \examples{
-    # Create a transcript DB from gff/gtf annotation file.
-  # Warnings in this examples can be ignored. 
-  #library(GenomicFeatures)
-  #genomeTxDb <- txdbmaker::makeTxDbFromGFF( system.file('extdata','genes.mini.gtf', 
-  #                               package="ASpli") )
-  #
-  ## Create an ASpliFeatures object from TxDb
-  #features <- binGenome( genomeTxDb )
-#  
-#  # Define bam files, sample names and experimental factors for targets.
-#  bamFileNames <- c( "A_C_0.bam", "A_C_1.bam", "A_C_2.bam", 
-#                     "A_D_0.bam", "A_D_1.bam", "A_D_2.bam" )
-#  targets <- data.frame( 
-#               row.names = paste0('Sample_',c(1:6)),
-#               bam = system.file( 'extdata', bamFileNames, package="ASpli" ),
-#               factor1 = c( 'C','C','C','D','D','D') )
-#  
-#  # Read counts from bam files (also loads them)
-#counts   <- gbCounts( features, targets, minReadLength = 100, 
-  #                        maxISize = 50000 )
-#                          
-#  # Calculates read densities
-#  counts <- rds( counts, targets )
+  # Example ASpliCounts object and its targets
+  counts  <- aspliCountsExample()
+  targets <- targets( counts )[ , c( "bam", "f1" ) ]
+
+  # Calculate read densities of genes and bins
+  counts <- rds( counts, targets )
+  head( rdsg( counts ), 3 )
 }
 
 \author{ Estefania Mancini, Andres Rabinovich, Javier Iserte, Marcelo Yanovsky, Ariel Chernomoretz  }

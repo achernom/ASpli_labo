@@ -32,7 +32,7 @@ no tocar `upstream`. Los commits de Claude llevan la línea Co-Authored-By está
 - `man/*.Rd` escritos a mano (no hay roxygen): si se cambia una firma, editar el `.Rd` a mano
 - `NAMESPACE` a mano, con `export()` explícito (ya no hay `exportPattern`). Una función o genérico
   nuevo exportado hay que agregarlo a mano a `export()`/`exportMethods()`; los helpers internos empiezan con `.`
-- `inst/extdata/`: 12 BAMs mini + `genes.mini.gtf` (10 genes artificiales). No modificar. Faltan los archivos `counts.*`, `du.*`, `as.*` que esperan `aspliCountsExample()`, `aspliDUexample1()`, etc. (esas funciones están rotas)
+- `inst/extdata/`: 12 BAMs mini + `genes.mini.gtf` (10 genes artificiales). No modificar. `aspli_example_objects.rds` guarda los objetos del pipeline mini (`counts`, `du`, `as`, `jdu`, `sr`, `is`, con los BAM como basenames) y lo leen `aspliCountsExample()`, `aspliSplicingReportExample()`, etc. vía `.loadASpliExample()`. Si cambian las clases o el pipeline, regenerarlo a partir de `mini_pipeline()`
 - `inst/doc/ASpli.Rnw`: viñeta (Sweave). Pipeline del quick start: `binGenome` -> `gbCounts`
   -> `jCounts` -> `gbDUreport` -> `jDUreport` -> `splicingReport` -> `integrateSignals`
   -> `exportIntegratedSignals`

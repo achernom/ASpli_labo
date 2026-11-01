@@ -7,7 +7,9 @@
 \alias{aspliExampleBamList}
 \alias{aspliExampleGTF}
 \alias{aspliFeaturesExample}
+\alias{aspliIntegratedSignalsExample}
 \alias{aspliJunctionDUexample}
+\alias{aspliSplicingReportExample}
 \alias{aspliTargetsExample}
 
 
@@ -19,6 +21,19 @@
   the vignette and man pages.
 }
 
+\details{
+  The objects returned by \code{aspliCountsExample}, \code{aspliASexample},
+  \code{aspliDUexample1}, \code{aspliDUexample2}, \code{aspliJunctionDUexample}, 
+  \code{aspliSplicingReportExample} and \code{aspliIntegratedSignalsExample} are 
+  the result of running the ASpli workflow (see the vignette) on the example
+  data of the package (6 bam files, \sQuote{control} versus \sQuote{treatment}, 
+  factor \code{f1}): \code{ASpliCounts}, \code{ASpliAS}, \code{ASpliDU} 
+  (genes and bins; both \code{aspliDUexample1} and \code{aspliDUexample2} return
+  it), \code{ASpliJDU}, \code{ASpliSplicingReport} and 
+  \code{ASpliIntegratedSignals} objects. The targets stored in them are those 
+  of \code{aspliTargetsExample()[1:6, ]} with the factor \code{f1}.
+}
+
 \usage{
   aspliASexample()
   aspliCountsExample()
@@ -27,7 +42,9 @@
   aspliExampleBamList()
   aspliExampleGTF()
   aspliFeaturesExample()
+  aspliIntegratedSignalsExample()
   aspliJunctionDUexample()
+  aspliSplicingReportExample()
   aspliTargetsExample()
 }
 
@@ -40,11 +57,11 @@ gtffile  <- aspliExampleGTF()
 bamfiles <- aspliExampleBamList()
 targets  <- aspliTargetsExample()
 features <- aspliFeaturesExample()
-#as <- aspliASexample()
-#counts <- aspliCountsExample()
-#du1 <- aspliDUexample1()
-#du2 <- aspliDUexample2()
-#jdu <- aspliJunctionDUexample()
+
+counts <- aspliCountsExample()
+as     <- aspliASexample()
+du     <- aspliDUexample1()
+jdu    <- aspliJunctionDUexample()
+sr     <- aspliSplicingReportExample()
+is     <- aspliIntegratedSignalsExample()
 }
-
-

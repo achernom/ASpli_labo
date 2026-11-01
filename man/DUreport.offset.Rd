@@ -101,7 +101,13 @@
 
 
 \examples{
-#check ASpli pacakge example}
+  # Example ASpliCounts object obtained with gbCounts() on the example data
+  counts <- aspliCountsExample()
+
+  # Differential gene expression and bin usage (control versus treatment)
+  du <- DUreport.offset( counts, contrast = c( -1, 1 ) )
+  du
+}
 
 \seealso{
   \code{\link{edgeR}}, \code{\link{jDUreport}}

@@ -85,7 +85,12 @@
 \author{ Estefania Mancini, Andres Rabinovich, Javier Iserte, Marcelo Yanovsky, Ariel Chernomoretz }
 
 \examples{
-#check ASpli package examples
+  # Example ASpliCounts object obtained with gbCounts() on the example data
+  counts <- aspliCountsExample()
+
+  # Differential gene expression and bin usage (control versus treatment)
+  du <- DUreport.norm( counts, contrast = c( -1, 1 ) )
+  du
 }
 
 \seealso{

@@ -49,42 +49,21 @@
 \author{ Estefania Mancini, Andres Rabinovich, Javier Iserte, Marcelo Yanovsky, Ariel Chernomoretz  }
 
 \examples{
+  # Example ASpliCounts and ASpliAS objects, and their targets
+  counts  <- aspliCountsExample()
+  as      <- aspliASexample()
+  targets <- targets( counts )[ , c( "bam", "f1" ) ]
 
-  # Create a transcript DB from gff/gtf annotation file.
-  # Warnings in this examples can be ignored. 
-  #library(GenomicFeatures)
-  #genomeTxDb <- txdbmaker::makeTxDbFromGFF( system.file('extdata','genes.mini.gtf', 
-  #                               package="ASpli") )
-  #
-  # Create an ASpliFeatures object from TxDb
-  #features <- binGenome( genomeTxDb )
-  #
-  # Define bam files, sample names and experimental factors for targets.
-  #bamFileNames <- c( "A_C_0.bam", "A_C_1.bam", "A_C_2.bam", 
-  #                   "A_D_0.bam", "A_D_1.bam", "A_D_2.bam" )
-  #targets <- data.frame( 
-  #             row.names = paste0('Sample_',c(1:6)),
-  #             bam = system.file( 'extdata', bamFileNames, package="ASpli" ),
-  #             factor1 = c( 'C','C','C','D','D','D') )
-  #
-  # Read counts from bam files (also loads them)
-  #counts   <- gbCounts( features, targets, minReadLength = 100, 
-  #                        maxISize = 50000 )
-#  
- # # Create ASpliAS object                        
-  #as       <- jCounts( counts, features, minReadLength = 100 )
-    #                      
   # Define selection
-  #select <- c('Sample_1', 'Sample_2', 'Sample_4', 'Sample_5')                       
-  #
-  # Subset target 
-  #targets2 <- subsetTargets( targets, select )
-  
-  # Subset ASpliCounts object 
-  #counts2 <- subset( counts, targets, select )
-  
-  # Subset ASpliAS object 
-  #as2 <- subset( as, targets, select )
-  
+  select <- c( 'Sample1', 'Sample2', 'Sample4', 'Sample5' )
+
+  # Subset target
+  targets2 <- subsetTargets( targets, select )
+
+  # Subset ASpliCounts object
+  counts2 <- subset( counts, targets, select )
+
+  # Subset ASpliAS object
+  as2 <- subset( as, targets, select )
 }
 

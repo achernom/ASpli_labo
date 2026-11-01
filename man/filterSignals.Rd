@@ -48,13 +48,12 @@
 }
 
 \examples{
-  # Create a transcript DB from gff/gtf annotation file.
-  # Warnings in this examples can be ignored.
-  
-  #as <- new("ASpliAS")
-  #targets <- 1
-  #a <- junctionDUreportExt(as, targets)
-  
+  # Example ASpliSplicingReport object (see ?splicingReport)
+  sr <- aspliSplicingReportExample()
+
+  # Indexes of the signals that pass the default filtering thresholds
+  filtered <- filterSignals( sr )
+  names( filtered )
 }
 
 \seealso{

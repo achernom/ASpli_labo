@@ -38,35 +38,31 @@ aspliExampleBamList <- function( ) {
 }
 
 aspliDUexample1 <- function( ) {
-  .loadASpliObject( "ASpliDU", 'du', 
-      c('genes', 'bins', 'junctions'),
-      c( 'genesDE', 'binsDU', 'junctionsDU' ) )
+  .loadASpliExample( "du" )
 }
 
 aspliDUexample2 <- function( ) {
-  .loadASpliObject( "ASpliDU", 'du', 
-      c('genes', 'bins' ),
-      c( 'genesDE', 'binsDU' ) )
+  .loadASpliExample( "du" )
 }
 
 aspliASexample <- function( ) {
-  .loadASpliObject( "ASpliAS", 'as', 
-      c('altPSI', 'esPSI', 'irPIR', 'join', 'junctionsPIR', 'junctionsPSI'),
-      c( 'altPSI', 'esPSI', 'irPIR', 'joint', 'junctionsPIR', 'junctionsPSI') )
+  .loadASpliExample( "as" )
 }
 
 aspliJunctionDUexample <- function( ) {
-  .loadASpliObject( "ASpliDU", 'du', 
-      c( 'junctions'),
-      c( 'junctionsDU' ) )
+  .loadASpliExample( "jdu" )
 }
 
 aspliCountsExample <- function( ) {
-  .loadASpliObject( "ASpliCounts", 'counts', 
-      c( 'bin.rd' , 'e1i.counts', 'exon.intron.counts', 'gene.counts', 
-          'gene.rd', 'ie2.counts', 'junction.counts'),
-      c( 'rdsb' , 'countse1i', 'countsb', 'countsg', 'rdsg', 'countsie2',
-          'countsj') )
+  .loadASpliExample( "counts" )
+}
+
+aspliSplicingReportExample <- function( ) {
+  .loadASpliExample( "sr" )
+}
+
+aspliIntegratedSignalsExample <- function( ) {
+  .loadASpliExample( "is" )
 }
 
 aspliFeaturesExample <- function( ) {
@@ -119,17 +115,15 @@ aspliFeaturesExample <- function( ) {
   
 }
 
-.loadASpliObject <- function ( Class, prefix, slotNames, setters ) {
-  obj <- new( Class )
-  if (length (slotNames) == length( setters) ) {
-    for ( i in 1:length( slotNames ) ) {
-      fn <- paste0( prefix, '.',slotNames[i] )
-      fn <- system.file("extdata", fn,  package="ASpli")
-      
-      slot.table <- read.table( fn, sep = "\t", stringsAsFactors = FALSE, check.names = FALSE )
-      obj <- do.call( paste0(setters[i],'<-'), list( obj , slot.table ) )
-    }
+# Example objects were obtained running the ASpli workflow (see the vignette) on
+# the data of inst/extdata: 6 bam files, 'control' vs 'treatment' (factor f1).
+# The paths of the bam files are stored relative to inst/extdata.
+.loadASpliExample <- function ( name ) {
+  fn  <- system.file( "extdata", "aspli_example_objects.rds", package = "ASpli" )
+  obj <- readRDS( fn )[[ name ]]
+  if ( .hasSlot( obj, "targets" ) && "bam" %in% colnames( obj@targets ) ) {
+    obj@targets$bam <- system.file( "extdata", basename( obj@targets$bam ), 
+                                    package = "ASpli" )
   }
   return( obj )
 }
-
