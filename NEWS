@@ -23,6 +23,7 @@ OTHER CHANGES
   * The example functions (aspliCountsExample, aspliASexample, aspliDUexample1/2, aspliJunctionDUexample) were broken because they read files missing in inst/extdata. They now read the objects stored in inst/extdata/aspli_example_objects.rds (result of the workflow on the example data). New: aspliSplicingReportExample and aspliIntegratedSignalsExample.
   * Runnable examples for DUreport.norm, DUreport.offset, filterSignals, plotBins, rds, subset and the accessors, using the example objects.
   * The vignette was converted from Sweave (Rnw) to R Markdown (BiocStyle::html_document), and a section "Migrating from ASpli v1" was added.
+  * gbCounts: the junction counting code uses accessors (mcols, ranges, names) instead of direct access to S4 slots, and stops with an informative message (including the number of junctions found per sample) when no junctions are detected.
   * Code cleanup requested by BiocCheck: is() instead of class(x) == "...", vapply instead of sapply.
   * Removed the conflict of the imported function utils::findMatches with S4Vectors::findMatches.
 

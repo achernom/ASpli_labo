@@ -493,6 +493,9 @@ setMethod(
       counts@junction.counts[, s] <- as.factor(counts@junction.counts[, s])
     }
     colnames(counts@junction.counts)[9:ncol(counts@junction.counts)] <- rownames(targets)
+    if ( nrow( counts@junction.counts ) == 0 ) {
+      stop( "No junctions are left to summarize after removing NA junctions." )
+    }
     junctions.order <- sort(rownames(counts@junction.counts))
     junctions.order <- strsplit2(junctions.order, "[.]")
     junctions.order <- GRanges(seqnames=junctions.order[, 1], IRanges(start=as.numeric(junctions.order[, 2]), end=as.numeric(junctions.order[, 3])))
