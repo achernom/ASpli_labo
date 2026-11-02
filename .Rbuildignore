@@ -6,3 +6,8 @@
 ^\.claude$
 ^\.CLAUDE.md$
 ^CLAUDE\.md$
+^ASpli_binFeatures\.log$
+^aspli_test\.R$
+^\.Rhistory$
+^vignettes/ASpli_binFeatures\.log$
+^tests/testthat/ASpli_binFeatures\.log$
