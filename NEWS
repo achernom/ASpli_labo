@@ -1,4 +1,4 @@
-CHANGES IN VERSION 2.19.2
+CHANGES IN VERSION 2.23.1
 ------------------------
 FUNCTIONS DEFUNCT
   * The functions of the ASpli 1.x workflow, deprecated since the introduction of the new pipeline, were removed. See ?"ASpli-defunct" for a guide to migrate old scripts. Older Bioconductor releases still contain them.
