@@ -497,8 +497,16 @@ setMethod(
       stop( "No junctions are left to summarize after removing NA junctions." )
     }
     junctions.order <- sort(rownames(counts@junction.counts))
-    junctions.order <- strsplit2(junctions.order, "[.]")
-    junctions.order <- GRanges(seqnames=junctions.order[, 1], IRanges(start=as.numeric(junctions.order[, 2]), end=as.numeric(junctions.order[, 3])))
+    # Junction names are <seqname>.<start>.<end>; split from the right so that
+    # seqnames containing dots are kept intact
+    jparts <- regmatches( junctions.order,
+                          regexec( "^(.*)[.]([0-9]+)[.]([0-9]+)$", junctions.order ) )
+    if ( any( lengths( jparts ) != 4L ) ) {
+      stop( "Unexpected junction names (expected <seqname>.<start>.<end>): ",
+            paste( head( junctions.order[ lengths( jparts ) != 4L ], 3 ), collapse = ", " ) )
+    }
+    jparts <- do.call( rbind, jparts )
+    junctions.order <- GRanges(seqnames=jparts[, 2], IRanges(start=as.numeric(jparts[, 3]), end=as.numeric(jparts[, 4])))
     #junctions.order <- sort(junctions.order)
     #junctions.order <- paste(junctions.order@seqnames, junctions.order@ranges@start, (junctions.order@ranges@start+junctions.order@ranges@width-1), sep=".")
     junctions.order <- order(junctions.order)

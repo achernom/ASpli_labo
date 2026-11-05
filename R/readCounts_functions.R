@@ -306,7 +306,7 @@
   jranges <- jranges[width(jranges)<= maxISize]
   
   #Here I summarize hits agains the element
-  fcoord <- paste(seqnames(jranges), 
+  fcoord <- paste(as.character(seqnames(jranges)), 
       start(jranges),
       end(jranges) , sep="." )
   names(jranges) <- fcoord
