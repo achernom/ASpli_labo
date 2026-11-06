@@ -18,6 +18,9 @@ Ciclo normal (ver también `aspliLaboBioc.d` en el directorio padre):
 3. Hacer los cambios (preferir una rama por tarea; mergear a `main` sólo con tests y check en verde)
 4. Subir versión `x.y.z` -> `x.y.z+1` en DESCRIPTION. **`y` debe ser impar** (devel). Actualizar `Date:` y NEWS
 5. `devtools::test()`, luego `R CMD build .` y `R CMD check --no-manual ASpli_*.tar.gz` (idealmente también `BiocCheck`)
+5b. Antes de subir, reproducir el build de Bioc devel (otras versiones de limma, etc.):
+   `docker run -it --rm -v /home/ariel/Projects/ASpli:/work bioconductor/bioconductor_docker:devel bash`
+   y adentro `cd /work && R CMD build --keep-empty-dirs --no-resave-data ASpli_labo` (el mismo comando del build de Bioc)
 6. `git push origin main`
 7. `git push upstream main:devel`  <- **sólo lo hace el usuario, nunca Claude**
 
@@ -75,6 +78,7 @@ Rscript -e 'BiocCheck::BiocCheck("ASpli_*.tar.gz")'   # si BiocCheck está insta
 - `gbCounts`/`jCounts` usan procesamiento paralelo (`pbmcapply`); en tests no hace falta configurar nada
 - Dependencias nuevas: agregarlas a `Imports` en DESCRIPTION y a NAMESPACE; sólo paquetes de CRAN/Bioconductor
 - `Depends` incluye edgeR/limma/AnnotationDbi; evitar ampliarlo
+- No depender de los defaults de funciones de otros paquetes que cambian entre versiones de Bioc: `limma::strsplit2` pasó a `fixed = TRUE` en limma 3.99. Usar el helper interno `.strsplit2` (regex por defecto) para partir nombres de junctions
 
 ## Estado conocido / pendientes
 
