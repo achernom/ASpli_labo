@@ -120,7 +120,6 @@ importFrom("grDevices", "dev.off", "png", "rgb", "bmp", "col2rgb", "dev.new", "j
 importFrom("stats", "aggregate", "formula", "p.adjust", "model.matrix", "setNames", "na.pass", "ecdf")
 importFrom("graphics", "axis", "barplot", "legend", "lines", "par","plot", "title", "abline", "layout", "mtext", "points", "polygon", "rect", "text")
 importFrom("igraph", "graph_from_edgelist", "clusters")
-importFrom("limma", "strsplit2")
 importFrom("data.table", "data.table", "as.data.table", "rbindlist")
 importFrom(parallel, mclapply)
 importFrom("tidyr", "replace_na")

@@ -97,3 +97,19 @@
 }
 
 
+
+# Split a character vector into a character matrix (one row per element, padded
+# with ""). Equivalent to limma::strsplit2 as it behaved before limma 3.99, where
+# 'split' was a regular expression; newer limma defaults to fixed = TRUE.
+.strsplit2 <- function ( x, split, fixed = FALSE, ... )
+{
+  x  <- as.character( x )
+  n  <- length( x )
+  s  <- strsplit( x, split = split, fixed = fixed, ... )
+  nc <- lengths( s )
+  out <- matrix( "", n, max( nc ) )
+  for ( i in seq_len( n ) ) {
+    if ( nc[ i ] ) out[ i, seq_len( nc[ i ] ) ] <- s[[ i ]]
+  }
+  out
+}

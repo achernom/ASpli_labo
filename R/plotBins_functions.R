@@ -550,7 +550,7 @@
   if(!genePlot){
     
     #nombre de cromosoma en aspli
-    aspli.chr <- strsplit2(strsplit2(iiss$region,":")[1], "Chr")
+    aspli.chr <- .strsplit2(.strsplit2(iiss$region,":")[1], "Chr")
     if(ncol(aspli.chr) == 2){
       aspli.chr <- aspli.chr[, 2]
     }else{
@@ -572,7 +572,7 @@
       chr <- aspli.chr
     }
     
-    roi   <- as.numeric(strsplit2(strsplit2(iiss$region,":")[2],"-"))
+    roi   <- as.numeric(.strsplit2(.strsplit2(iiss$region,":")[2],"-"))
     #si hay una J3 != NA la uso para definir el rango
     if(!is.na(iiss$J3)){
       #si J3 se movio en un cluster, uso el cluster para definir el rango
@@ -580,13 +580,13 @@
       #    #TODO
       #  }else{
       
-      #roiJ3   <- as.numeric(strsplit2(as.character(iiss$J3),".",fixed=TRUE)[2:3])
+      #roiJ3   <- as.numeric(.strsplit2(as.character(iiss$J3),".",fixed=TRUE)[2:3])
       
       #chequeo si tengo mas de una J3
-      j3aux <- strsplit2(iiss$J3,";")
+      j3aux <- .strsplit2(iiss$J3,";")
       roiJ3<-c()
       for(ij3 in seq_along(j3aux)){
-        roiJ3   <- c(roiJ3,as.numeric(strsplit2(j3aux[ij3],".",fixed=TRUE)[2:3]))
+        roiJ3   <- c(roiJ3,as.numeric(.strsplit2(j3aux[ij3],".",fixed=TRUE)[2:3]))
       }
       roiJ3 <- range(roiJ3)
       
@@ -661,7 +661,7 @@
   
   # Si hay variants...dibujo variantes
   if(!is.null(variants)){
-    #transcriptGene<-strsplit2(names(variants),".",fixed=TRUE)[,1]
+    #transcriptGene<-.strsplit2(names(variants),".",fixed=TRUE)[,1]
     transcriptGene <- mcols(variants)[,"gene"]
     
     ig<-which(transcriptGene%in%geneName)
@@ -702,7 +702,7 @@
   rect(start(bins)[iE],ycollapsed-.45,end(bins)[iE],ycollapsed+.45,col="white")
   
   #remarco la roi original
-    xroi   <- as.numeric(strsplit2(strsplit2(iiss$region,":")[2],"-"))
+    xroi   <- as.numeric(.strsplit2(.strsplit2(iiss$region,":")[2],"-"))
     lines(xroi,rep(ycollapsed-.6,2),col="black",lwd=3)
     
   #grafico el zoom
@@ -739,19 +739,19 @@
   
   # Junturas
   jcount1<-jcount2<-jcount0<-nj0<-nj1<-nj2<-0
-  # aspli.chr <- strsplit2(strsplit2(iiss$region,":")[1], "[cC]hr")
+  # aspli.chr <- .strsplit2(.strsplit2(iiss$region,":")[1], "[cC]hr")
   # if(ncol(aspli.chr) == 2){
   #   aspli.chr <- aspli.chr[, 2]
   # }else{
   #   aspli.chr <- aspli.chr[, 1]
   # }
-  aspli.chr <- strsplit2(iiss$region,":")[1]
+  aspli.chr <- .strsplit2(iiss$region,":")[1]
   
   
   
   
   #que junturas estan dentro de la zona?
-  jsplit <- strsplit2(rownames(junctionsPJU(asd)),".",fixed=TRUE)
+  jsplit <- .strsplit2(rownames(junctionsPJU(asd)),".",fixed=TRUE)
   if(jCompletelyIncluded){
     ijsplit <- which(jsplit[,1]==aspli.chr & as.numeric(jsplit[,2])>=zroi[1] & as.numeric(jsplit[,3])<=zroi[2])
   }else{
@@ -763,7 +763,7 @@
 
   # busco anchor junctions
   js <- unique(anchorbased(sr)$junction)
-  aux <- strsplit2(js,".",fixed=TRUE)
+  aux <- .strsplit2(js,".",fixed=TRUE)
   # ijs <-which(aux[,1]==aspli.chr &
   #               as.numeric(aux[,2])>=zroi[1] &
   #               as.numeric(aux[,2])<=zroi[2])  #ACA HAbia un error!
@@ -786,7 +786,7 @@
   
   #analizo locale 
   js <- unique(localebased(sr)$junction)
-  aux <- strsplit2(js,".",fixed=TRUE)
+  aux <- .strsplit2(js,".",fixed=TRUE)
   # ijs <-which(aux[,1]==aspli.chr &
   #               as.numeric(aux[,2])>=zroi[1] &
   #               as.numeric(aux[,2])<=zroi[2]) #ACA HAbia un error!
@@ -834,8 +834,8 @@
     ad <- system(paste0("samtools depth -r ",
                         paste0(aspli.chr,":",zroi[1],"-",zroi[2]," "),
                         mergedBAMs[icond, 1]), intern = TRUE)
-    #ad <- matrix(as.numeric(strsplit2(ad,"\t")),ncol=3)
-    ad <- strsplit2(ad,"\t")
+    #ad <- matrix(as.numeric(.strsplit2(ad,"\t")),ncol=3)
+    ad <- .strsplit2(ad,"\t")
     ad <- data.frame(ad,stringsAsFactors = FALSE)
     ad[,2]<-as.numeric(ad[,2])
     ad[,3]<-as.numeric(ad[,3])
@@ -941,8 +941,8 @@
            jcounts<-rbind(jcounts,jcount2)
           }
       }
-      #jcoords <- t(apply(cbind(rownames(jcounts,jcounts)),1,function(x){as.numeric(strsplit2(x,"[.]"))}))
-      jcoords <- t(apply(cbind(rownames(jcounts,jcounts)),1,function(x){strsplit2(x,"[.]")}))
+      #jcoords <- t(apply(cbind(rownames(jcounts,jcounts)),1,function(x){as.numeric(.strsplit2(x,"[.]"))}))
+      jcoords <- t(apply(cbind(rownames(jcounts,jcounts)),1,function(x){.strsplit2(x,"[.]")}))
       rownames(jcoords)<-rownames(jcounts)
     
       ccolor  <- rep("lightgreen",nrow(jcounts))
@@ -984,7 +984,7 @@
     
     #remarco la roi original
     if(icond==1){
-      xroi   <- as.numeric(strsplit2(strsplit2(iiss$region,":")[2],"-"))
+      xroi   <- as.numeric(.strsplit2(.strsplit2(iiss$region,":")[2],"-"))
       lines(xroi,rep(par("usr")[3],2),col="black",lwd=3)
       # rect(xroi[1],par("usr")[3],xroi[2],par("usr")[3]+diff(par("usr")[4:3])*.1,col="black",density=2)
     }
@@ -1099,7 +1099,7 @@
   if(!genePlot){
     
     #nombre de cromosoma en aspli
-    aspli.chr <- strsplit2(strsplit2(iiss$region,":")[1], "Chr")
+    aspli.chr <- .strsplit2(.strsplit2(iiss$region,":")[1], "Chr")
     if(ncol(aspli.chr) == 2){
       aspli.chr <- aspli.chr[, 2]
     }else{
@@ -1121,7 +1121,7 @@
       chr <- aspli.chr
     }
     
-    roi   <- as.numeric(strsplit2(strsplit2(iiss$region,":")[2],"-"))
+    roi   <- as.numeric(.strsplit2(.strsplit2(iiss$region,":")[2],"-"))
     #si hay una J3 != NA la uso para definir el rango
     if(!is.na(iiss$J3)){
       #si J3 se movio en un cluster, uso el cluster para definir el rango
@@ -1129,13 +1129,13 @@
       #    #TODO
       #  }else{
       
-      #roiJ3   <- as.numeric(strsplit2(as.character(iiss$J3),".",fixed=TRUE)[2:3])
+      #roiJ3   <- as.numeric(.strsplit2(as.character(iiss$J3),".",fixed=TRUE)[2:3])
       
       #chequeo si tengo mas de una J3
-      j3aux <- strsplit2(iiss$J3,";")
+      j3aux <- .strsplit2(iiss$J3,";")
       roiJ3<-c()
       for(ij3 in seq_along(j3aux)){
-        roiJ3   <- c(roiJ3,as.numeric(strsplit2(j3aux[ij3],".",fixed=TRUE)[2:3]))
+        roiJ3   <- c(roiJ3,as.numeric(.strsplit2(j3aux[ij3],".",fixed=TRUE)[2:3]))
       }
       roiJ3 <- range(roiJ3)
       
@@ -1212,7 +1212,7 @@
   
   # Si hay variants...dibujo variantes
   if(!is.null(variants)){
-    #transcriptGene<-strsplit2(names(variants),".",fixed=TRUE)[,1]
+    #transcriptGene<-.strsplit2(names(variants),".",fixed=TRUE)[,1]
     transcriptGene <- mcols(variants)[,"gene"]
     
     ig<-which(transcriptGene%in%geneName)
@@ -1253,7 +1253,7 @@
   rect(start(bins)[iE],ycollapsed-.45,end(bins)[iE],ycollapsed+.45,col="white")
   
   # #remarco la roi original
-  # xroi   <- as.numeric(strsplit2(strsplit2(iiss$region,":")[2],"-"))
+  # xroi   <- as.numeric(.strsplit2(.strsplit2(iiss$region,":")[2],"-"))
   # lines(xroi,rep(ycollapsed-.6,2),col="black",lwd=3)
    
   #grafico el zoom
@@ -1291,19 +1291,19 @@
   
   # Junturas
   jcount1<-jcount2<-jcount0<-nj0<-nj1<-nj2<-0
-  # aspli.chr <- strsplit2(strsplit2(iiss$region,":")[1], "[cC]hr")
+  # aspli.chr <- .strsplit2(.strsplit2(iiss$region,":")[1], "[cC]hr")
   # if(ncol(aspli.chr) == 2){
   #   aspli.chr <- aspli.chr[, 2]
   # }else{
   #   aspli.chr <- aspli.chr[, 1]
   # }
- aspli.chr <- strsplit2(greg,":")[1]
+ aspli.chr <- .strsplit2(greg,":")[1]
   
   
   
   
   #que junturas estan dentro de la zona?
-  jsplit <- strsplit2(rownames(junctionsPJU(asd)),".",fixed=TRUE)
+  jsplit <- .strsplit2(rownames(junctionsPJU(asd)),".",fixed=TRUE)
   if(jCompletelyIncluded){
     ijsplit <- which(jsplit[,1]==aspli.chr & as.numeric(jsplit[,2])>=zroi[1] & as.numeric(jsplit[,3])<=zroi[2])
   }else{
@@ -1315,7 +1315,7 @@
   
   # busco anchor junctions
   js <- unique(anchorbased(sr)$junction)
-  aux <- strsplit2(js,".",fixed=TRUE)
+  aux <- .strsplit2(js,".",fixed=TRUE)
   # ijs <-which(aux[,1]==aspli.chr &
   #               as.numeric(aux[,2])>=zroi[1] &
   #               as.numeric(aux[,2])<=zroi[2])  #ACA HAbia un error!
@@ -1338,7 +1338,7 @@
   
   #analizo locale 
   js <- unique(localebased(sr)$junction)
-  aux <- strsplit2(js,".",fixed=TRUE)
+  aux <- .strsplit2(js,".",fixed=TRUE)
   # ijs <-which(aux[,1]==aspli.chr &
   #               as.numeric(aux[,2])>=zroi[1] &
   #               as.numeric(aux[,2])<=zroi[2]) #ACA HAbia un error!
@@ -1386,8 +1386,8 @@
     ad <- system(paste0("samtools depth -r ",
                         paste0(aspli.chr,":",zroi[1],"-",zroi[2]," "),
                         mergedBAMs[icond, 1]), intern = TRUE)
-    #ad <- matrix(as.numeric(strsplit2(ad,"\t")),ncol=3)
-    ad <- strsplit2(ad,"\t")
+    #ad <- matrix(as.numeric(.strsplit2(ad,"\t")),ncol=3)
+    ad <- .strsplit2(ad,"\t")
     ad <- data.frame(ad,stringsAsFactors = FALSE)
     ad[,2]<-as.numeric(ad[,2])
     ad[,3]<-as.numeric(ad[,3])
@@ -1493,8 +1493,8 @@
           jcounts<-rbind(jcounts,jcount2)
         }
       }
-      #jcoords <- t(apply(cbind(rownames(jcounts,jcounts)),1,function(x){as.numeric(strsplit2(x,"[.]"))}))
-      jcoords <- t(apply(cbind(rownames(jcounts,jcounts)),1,function(x){strsplit2(x,"[.]")}))
+      #jcoords <- t(apply(cbind(rownames(jcounts,jcounts)),1,function(x){as.numeric(.strsplit2(x,"[.]"))}))
+      jcoords <- t(apply(cbind(rownames(jcounts,jcounts)),1,function(x){.strsplit2(x,"[.]")}))
       rownames(jcoords)<-rownames(jcounts)
       
       ccolor  <- rep("lightgreen",nrow(jcounts))
@@ -1536,7 +1536,7 @@
     
     #remarco la roi original
     if(icond==1){
-      xroi   <- as.numeric(strsplit2(strsplit2(greg,":")[2],"-"))
+      xroi   <- as.numeric(.strsplit2(.strsplit2(greg,":")[2],"-"))
       lines(xroi,rep(par("usr")[3],2),col="black",lwd=3)
       # rect(xroi[1],par("usr")[3],xroi[2],par("usr")[3]+diff(par("usr")[4:3])*.1,col="black",density=2)
     }
@@ -1643,7 +1643,7 @@
   if(!genePlot){
     
     #nombre de cromosoma en aspli
-    aspli.chr <- strsplit2(strsplit2(iiss$region,":")[1], "Chr")
+    aspli.chr <- .strsplit2(.strsplit2(iiss$region,":")[1], "Chr")
     if(ncol(aspli.chr) == 2){
       aspli.chr <- aspli.chr[, 2]
     }else{
@@ -1665,7 +1665,7 @@
       chr <- aspli.chr
     }
     
-    roi   <- as.numeric(strsplit2(strsplit2(iiss$region,":")[2],"-"))
+    roi   <- as.numeric(.strsplit2(.strsplit2(iiss$region,":")[2],"-"))
     #si hay una J3 != NA la uso para definir el rango
     if(!is.na(iiss$J3)){
       #si J3 se movio en un cluster, uso el cluster para definir el rango
@@ -1673,13 +1673,13 @@
       #    #TODO
       #  }else{
       
-      #roiJ3   <- as.numeric(strsplit2(as.character(iiss$J3),".",fixed=TRUE)[2:3])
+      #roiJ3   <- as.numeric(.strsplit2(as.character(iiss$J3),".",fixed=TRUE)[2:3])
       
       #chequeo si tengo mas de una J3
-      j3aux <- strsplit2(iiss$J3,";")
+      j3aux <- .strsplit2(iiss$J3,";")
       roiJ3<-c()
       for(ij3 in seq_along(j3aux)){
-        roiJ3   <- c(roiJ3,as.numeric(strsplit2(j3aux[ij3],".",fixed=TRUE)[2:3]))
+        roiJ3   <- c(roiJ3,as.numeric(.strsplit2(j3aux[ij3],".",fixed=TRUE)[2:3]))
       }
       roiJ3 <- range(roiJ3)
       
@@ -1754,7 +1754,7 @@
   
   # Si hay exones...dibujo variantes
   if(!is.null(exones)){
-    transcriptGene<-strsplit2(names(exones),".",fixed=TRUE)[,1]
+    transcriptGene<-.strsplit2(names(exones),".",fixed=TRUE)[,1]
     
     ig<-which(transcriptGene%in%geneName)
     tex <- exones[ig]
@@ -1794,7 +1794,7 @@
   rect(start(bins)[iE],ycollapsed-.45,end(bins)[iE],ycollapsed+.45,col="white")
   
   #remarco la roi original
-  xroi   <- as.numeric(strsplit2(strsplit2(iiss$region,":")[2],"-"))
+  xroi   <- as.numeric(.strsplit2(.strsplit2(iiss$region,":")[2],"-"))
   lines(xroi,rep(ycollapsed-.6,2),col="black",lwd=3)
   
   #grafico el zoom
@@ -1827,7 +1827,7 @@
   
   # Junturas
   jcount1<-jcount2<-jcount0<-nj0<-nj1<-nj2<-0
-  aspli.chr <- strsplit2(strsplit2(iiss$region,":")[1], "[cC]hr")
+  aspli.chr <- .strsplit2(.strsplit2(iiss$region,":")[1], "[cC]hr")
   if(ncol(aspli.chr) == 2){
     aspli.chr <- aspli.chr[, 2]
   }else{
@@ -1835,7 +1835,7 @@
   }
   
   #que junturas estan dentro de la zona?
-  jsplit <- strsplit2(rownames(junctionsPJU(asd)),".",fixed=TRUE)
+  jsplit <- .strsplit2(rownames(junctionsPJU(asd)),".",fixed=TRUE)
   if(jCompletelyIncluded){
     ijsplit <- which(jsplit[,1]==aspli.chr & as.numeric(jsplit[,2])>=zroi[1] & as.numeric(jsplit[,3])<=zroi[2])
   }else{
@@ -1847,7 +1847,7 @@
   
   # busco anchor junctions
   js <- unique(anchorbased(sr)$junction)
-  aux <- strsplit2(js,".",fixed=TRUE)
+  aux <- .strsplit2(js,".",fixed=TRUE)
   # ijs <-which(aux[,1]==aspli.chr &
   #               as.numeric(aux[,2])>=zroi[1] &
   #               as.numeric(aux[,2])<=zroi[2])  #ACA HAbia un error!
@@ -1867,7 +1867,7 @@
   
   #analizo locale 
   js <- unique(localebased(sr)$junction)
-  aux <- strsplit2(js,".",fixed=TRUE)
+  aux <- .strsplit2(js,".",fixed=TRUE)
   # ijs <-which(aux[,1]==aspli.chr &
   #               as.numeric(aux[,2])>=zroi[1] &
   #               as.numeric(aux[,2])<=zroi[2]) #ACA HAbia un error!
@@ -1910,7 +1910,7 @@
     ad <- system(paste0("samtools depth -r ",
                         paste0(aspli.chr,":",zroi[1],"-",zroi[2]," "),
                         mergedBAMs[icond, 1]), intern = TRUE)
-    ad <- matrix(as.numeric(strsplit2(ad,"\t")),ncol=3)
+    ad <- matrix(as.numeric(.strsplit2(ad,"\t")),ncol=3)
     yylim <- range(ad[,3])
     
     nrep <- table(counts@targets$condition)[mergedBAMs[icond,2]]
@@ -2010,7 +2010,7 @@
           jcounts<-rbind(jcounts,jcount2)
         }
       }
-      jcoords <- t(apply(cbind(rownames(jcounts,jcounts)),1,function(x){as.numeric(strsplit2(x,"[.]"))}))
+      jcoords <- t(apply(cbind(rownames(jcounts,jcounts)),1,function(x){as.numeric(.strsplit2(x,"[.]"))}))
       rownames(jcoords)<-rownames(jcounts)
       
       ccolor  <- rep("lightgreen",nrow(jcounts))
@@ -2050,7 +2050,7 @@
     
     #remarco la roi original
     if(icond==1){
-      xroi   <- as.numeric(strsplit2(strsplit2(iiss$region,":")[2],"-"))
+      xroi   <- as.numeric(.strsplit2(.strsplit2(iiss$region,":")[2],"-"))
       lines(xroi,rep(par("usr")[3],2),col="black",lwd=3)
       # rect(xroi[1],par("usr")[3],xroi[2],par("usr")[3]+diff(par("usr")[4:3])*.1,col="black",density=2)
     }

@@ -136,7 +136,7 @@
 
   #build localec
   ltsp       <- ltsp[["cluster"]]
-  junturas   <- strsplit2(rownames(jPSI), "[.]")
+  junturas   <- .strsplit2(rownames(jPSI), "[.]")
   rango      <- merge(aggregate(as.numeric(junturas[, 2]) ~ jPSI$cluster, FUN=min), 
                       aggregate(as.numeric(junturas[, 3]) ~ jPSI$cluster, FUN=max))
   rango      <- apply(rango[jPSI$cluster, 2:3], 1, paste, collapse=".")
@@ -815,10 +815,10 @@
     #reader <- bamReader(mergedBams[2], idx=TRUE)
     #reader <- readers[[which.max(data[p, getConditions(targets)])]]
     
-    pp      <- strsplit2(p, "[.]")[1, ]
+    pp      <- .strsplit2(p, "[.]")[1, ]
     ad <- system(paste0("samtools depth -r ", paste0(pp[1], ":", (as.numeric(pp[2])-10), "-",  (as.numeric(pp[3])+10)), " ", mergedBams[which.max(data[p, getConditions(targets)[contrast != 0]])]), intern = TRUE)
     if(length(ad) > 40){
-      ad <- as.numeric(strsplit2(ad, "\t")[, 3])
+      ad <- as.numeric(.strsplit2(ad, "\t")[, 3])
       #if(refid[pp[1]] < 5){
       #for(i in 1:100){
       #reader  <- bamReader(mergedBams[which.max(data[p, getConditions(targets)])], idx=TRUE)

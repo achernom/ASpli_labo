@@ -73,14 +73,14 @@
   
   ########################################
   localej   <- localej(jdu)
-  junctions <- strsplit2(rownames(localej), "[.]")
+  junctions <- .strsplit2(rownames(localej), "[.]")
   seqnames  <- junctions[, 1]
   start     <- as.numeric(junctions[, 2]) + 1
   end       <- as.numeric(junctions[, 3]) - 1
   
   grjunctions <- GRanges(seqnames, IRanges(start, end), strand="*")
   
-  seqnames <- strsplit2(binsDU(bdu)$gene_coordinates, "[:]")[, 1]
+  seqnames <- .strsplit2(binsDU(bdu)$gene_coordinates, "[:]")[, 1]
   start    <- binsDU(bdu)$start
   end      <- binsDU(bdu)$end
   
@@ -127,14 +127,14 @@
   localec <- data.table(localec(jdu), keep.rownames = TRUE)
 
   #Tries to find cluster locus
-  junctions  <- strsplit2(localec$range, "[.]")
+  junctions  <- .strsplit2(localec$range, "[.]")
   seqnames   <- junctions[, 1]
   start      <- as.numeric(junctions[, 2]) + 1
   end        <- as.numeric(junctions[, 3]) - 1
   
   grclusters <- GRanges(seqnames, IRanges(start, end), strand="*")
   
-  seqnames   <- strsplit2(genesDE(bdu)$gene_coordinates, "[:]")[, 1]
+  seqnames   <- .strsplit2(genesDE(bdu)$gene_coordinates, "[:]")[, 1]
   start      <- genesDE(bdu)$start
   end        <- genesDE(bdu)$end
   
@@ -159,7 +159,7 @@
                    ]
   rownames(fulldt) <- NULL
   #fulldt           <- fulldt[union(which(fulldt$bin.fdr < maxBinFDR), which(fulldt$cluster.fdr < maxJunctionFDR)), ] #Traemos todos
-  index.orden      <- strsplit2(fulldt$junction, "[.]")
+  index.orden      <- .strsplit2(fulldt$junction, "[.]")
   index.orden      <- order(GRanges(index.orden[, 1], IRanges(as.numeric(index.orden[, 2]), as.numeric(index.orden[, 3]))))
   fulldt           <- fulldt[index.orden, ] 
   rownames(fulldt) <- NULL
@@ -167,14 +167,14 @@
   
   ########################################
   anchorj  <- anchorj(jdu)
-  junctions <- strsplit2(rownames(anchorj), "[.]")
+  junctions <- .strsplit2(rownames(anchorj), "[.]")
   seqnames <- junctions[, 1]
   start    <- as.numeric(junctions[, 2]) + 1
   end      <- as.numeric(junctions[, 3]) - 1
   
   grjunctions <- GRanges(seqnames, IRanges(start, end), strand="*")
   
-  seqnames <- strsplit2(bdu@bins$gene_coordinates, "[:]")[, 1]
+  seqnames <- .strsplit2(bdu@bins$gene_coordinates, "[:]")[, 1]
   start    <- binsDU(bdu)$start
   end      <- binsDU(bdu)$end
   
@@ -205,14 +205,14 @@
                                          colnames(junctionbased_junctions)[grep("counts", colnames(junctionbased_junctions))])
   
   anchorc <- data.table(anchorc(jdu), keep.rownames = TRUE)  #Tries to find cluster locus
-  junctions  <- strsplit2(anchorc$rn, "[.]")
+  junctions  <- .strsplit2(anchorc$rn, "[.]")
   seqnames   <- junctions[, 1]
   start      <- as.numeric(junctions[, 2]) + 1
   end        <- as.numeric(junctions[, 3]) - 1
  
   grclusters <- GRanges(seqnames, IRanges(start, end), strand="*")
   
-  seqnames   <- strsplit2(genesDE(bdu)$gene_coordinates, "[:]")[, 1]
+  seqnames   <- .strsplit2(genesDE(bdu)$gene_coordinates, "[:]")[, 1]
   start      <- genesDE(bdu)$start
   end        <- genesDE(bdu)$end
   
@@ -237,13 +237,13 @@
                   ]
   rownames(fulldt) <- NULL
   #fulldt          <- fulldt[union(which(fulldt$bin.fdr < maxBinFDR), which(fulldt$cluster.fdr < maxJunctionFDR)), ]
-  index.orden     <- strsplit2(fulldt$junction, "[.]")
+  index.orden     <- .strsplit2(fulldt$junction, "[.]")
   index.orden     <- order(GRanges(index.orden[, 1], IRanges(as.numeric(index.orden[, 2]), as.numeric(index.orden[, 3]))))
   #countsJ1 <- fulldt[, colnames(fulldt)[grep("countsJ1", colnames(fulldt))]]
   #countsJ2 <- fulldt[, colnames(fulldt)[grep("countsJ2", colnames(fulldt))]]
   #countsJ3 <- fulldt[, colnames(fulldt)[grep("countsJ3", colnames(fulldt))]]
   #pir             <- (countsJ1 + countsJ2)/(countsJ1 + countsJ2 + countsJ3)
-  #colnames(pir)   <- strsplit2(colnames(pir), "[.]")[, 2]
+  #colnames(pir)   <- .strsplit2(colnames(pir), "[.]")[, 2]
   #dpir            <- rowSums(t(t(pir)*jdu@contrast[colnames(pir)]))
   #fulldt$dPIR     <- dpir
   fulldt          <- fulldt[index.orden, ] 
@@ -502,7 +502,7 @@
   if(nrow(b) > 0){
     start   = as.numeric(b$start)#aggregate(start ~ cluster, data=b, FUN=min)
     end     = as.numeric(b$end)#aggregate(end ~ cluster, data=b, FUN=max)
-    seqnames = strsplit2(b$gene_coordinates, ":")[, 1]
+    seqnames = .strsplit2(b$gene_coordinates, ":")[, 1]
     strand  = rep("*", times=length(seqnames))
     tipo    = rep("binbased", times=length(seqnames))
     binbased <- GRanges(seqnames, IRanges(start, end), strand, tipo)
@@ -521,7 +521,7 @@
   if(nrow(b) > 0){
     start   = as.numeric(b$start)#aggregate(start ~ cluster, data=b, FUN=min)
     end     = as.numeric(b$end)#aggregate(end ~ cluster, data=b, FUN=max)
-    seqnames = strsplit2(b$gene_coordinates, ":")[, 1]
+    seqnames = .strsplit2(b$gene_coordinates, ":")[, 1]
     strand  = rep("*", times=length(seqnames))
     tipo    = rep("binbased", times=length(seqnames))
     binsupport <- GRanges(seqnames, IRanges(start, end), strand, tipo)
@@ -536,7 +536,7 @@
   
   #anchor ranges
   if(nrow(b) > 0){
-    aux <- strsplit2(b$junction, "[.]")
+    aux <- .strsplit2(b$junction, "[.]")
     start   = as.numeric(aux[, 2]) + 1#aggregate(start ~ cluster, data=b, FUN=min)
     end     = as.numeric(aux[, 3]) - 1#aggregate(end ~ cluster, data=b, FUN=max)
     seqnames = aux[, 1]
@@ -554,7 +554,7 @@
 
   #locale ranges  
   if(nrow(b) > 0){
-    aux <- strsplit2(b$cluster.range, "[.]") #Reemplazamos la juntura por el rango del cluster al que pertenece que es el dato importante
+    aux <- .strsplit2(b$cluster.range, "[.]") #Reemplazamos la juntura por el rango del cluster al que pertenece que es el dato importante
     start   = as.numeric(aux[, 2])#aggregate(start ~ cluster, data=b, FUN=min)
     end     = as.numeric(aux[, 3])#aggregate(end ~ cluster, data=b, FUN=max)
     seqnames = aux[, 1]
@@ -670,12 +670,12 @@
   
   # i <- grep("ja.", overlaps_aux$region,fixed=TRUE)
   # if(length(i)){
-  #   L <- as.data.frame(anchorbased[as.numeric(strsplit2(overlaps_aux$region[i], "ja.")[, 2])])
+  #   L <- as.data.frame(anchorbased[as.numeric(.strsplit2(overlaps_aux$region[i], "ja.")[, 2])])
   #   overlaps_aux$region[i] <- paste0("Chr", L$seqnames, ":", L$start, "-", L$end)
   # }
   
   # i <- grep("jl.", overlaps_aux$region,fixed=TRUE)
-  # L <- as.data.frame(localebased[as.numeric(strsplit2(overlaps_aux$region[i], "jl.")[, 2])])
+  # L <- as.data.frame(localebased[as.numeric(.strsplit2(overlaps_aux$region[i], "jl.")[, 2])])
   # overlaps_aux$region[i] <- paste0("Chr", L$seqnames, ":", L$start+1, "-", L$end-1)
   
   #
@@ -683,27 +683,27 @@
   #
   i <- grep("b.", overlaps_aux$region,fixed=TRUE)
   if(length(i)){
-    L <- as.data.frame(binbased[as.numeric(strsplit2(overlaps_aux$region[i], "b.")[, 2])])
+    L <- as.data.frame(binbased[as.numeric(.strsplit2(overlaps_aux$region[i], "b.")[, 2])])
     overlaps_aux$region[i] <- paste0(L$seqnames, ":", L$start, "-", L$end)
   }
   
   i <- grep("bjs.", overlaps_aux$region, fixed=TRUE)
   if(length(i)){
-    L <- as.data.frame(binsupport[as.numeric(strsplit2(overlaps_aux$region[i], "bjs.")[, 2])])
+    L <- as.data.frame(binsupport[as.numeric(.strsplit2(overlaps_aux$region[i], "bjs.")[, 2])])
     overlaps_aux$region[i] <- paste0(L$seqnames, ":", L$start, "-", L$end)
   }
   
   if(is(otherSources, "GRanges")){
     i <- grep("otherSources.", overlaps_aux$region,fixed=TRUE)
     if(length(i)){
-      L <- as.data.frame(otherSources[as.numeric(strsplit2(overlaps_aux$region[i], "otherSources.")[, 2])])
+      L <- as.data.frame(otherSources[as.numeric(.strsplit2(overlaps_aux$region[i], "otherSources.")[, 2])])
       overlaps_aux$region[i] <- paste0(L$seqnames, ":", L$start, "-", L$end)
     }
   }
   
   i <- grep("jl.", overlaps_aux$region,fixed=TRUE)
   if(length(i)){
-    L <- as.data.frame(localebased[as.numeric(strsplit2(overlaps_aux$region[i], "jl.")[, 2])])
+    L <- as.data.frame(localebased[as.numeric(.strsplit2(overlaps_aux$region[i], "jl.")[, 2])])
     overlaps_aux$region[i] <- paste0(L$seqnames, ":", L$start, "-", L$end)
   }  
   
@@ -713,7 +713,7 @@
   # si es un rango nuevo, se consigna el rango de la juntura original
   i <- grep("ja.", overlaps_aux$region,fixed=TRUE)
   if(length(i)){
-    L <- as.data.frame(anchorbased[as.numeric(strsplit2(overlaps_aux$region[i], "ja.")[, 2])])
+    L <- as.data.frame(anchorbased[as.numeric(.strsplit2(overlaps_aux$region[i], "ja.")[, 2])])
     aux_region <- paste0(L$seqnames, ":", L$start, "-", L$end)
     j <- which(aux_region %in% setdiff(aux_region, overlaps_aux$region))
     overlaps_aux$region[i] <- aux_region
@@ -756,11 +756,11 @@
       regiones <- aa$region
       regiones <- gsub("[:]", ".", regiones)
       regiones <- gsub("[-]", ".", regiones)
-      regiones <- strsplit2(regiones, "[.]")
+      regiones <- .strsplit2(regiones, "[.]")
       regiones <- GRanges(regiones[, 1], ranges = IRanges(start = as.numeric(regiones[, 2]), end = as.numeric(regiones[, 3])))
       genes    <- gsub("[:]", ".", asd@junctionsPJU$gene_coordinates)
       genes    <- gsub("[-]", ".", genes)
-      genes    <- strsplit2(genes, "[.]")
+      genes    <- .strsplit2(genes, "[.]")
       rownames(genes) <- asd@junctionsPJU$symbol
       genes    <- unique(genes)
       grgenes  <- GRanges(genes[, 1], ranges = IRanges(start = as.numeric(genes[, 2]), end = as.numeric(genes[, 3])))
@@ -771,7 +771,7 @@
     }
     
     #Traemos los locus del bin si no estan
-    genes <- strsplit2(aa$bin, ":")[, 1]
+    genes <- .strsplit2(aa$bin, ":")[, 1]
     locus_a_imputar <- which(is.na(aa$locus) & !is.na(aa$bin))
     aa$locus[locus_a_imputar] <- genes[locus_a_imputar]
 
@@ -813,7 +813,7 @@
     bines       <- data.frame(bin = sr@binbased$bin, feature = sr@binbased$feature, gene_coordinates = sr@binbased$gene_coordinates, start = sr@binbased$start, end = sr@binbased$end, 
                               stringsAsFactors = FALSE)
     bines       <- bines[complete.cases(bines), ]
-    chromosomes <- strsplit2(bines$gene_coordinates, "[:]")[, 1]
+    chromosomes <- .strsplit2(bines$gene_coordinates, "[:]")[, 1]
     rango_bines <- GRanges(seqnames = chromosomes, ranges = IRanges(start = bines$start, end = bines$end))
     
     elementos_a_eliminar <- c() #Puede que podamos colapsar algunos elementos, por lo que los duplicados tienen que eliminarse
@@ -894,7 +894,7 @@
         
         if(aa$jl[b] == 1){ #Encontre el cluster
           if(is.na(aa$feature[b])){ #Tratamos de darle sentido al evento
-            junturas <- strsplit2(unique(original_signals$jl$junction[i]), "[.]")
+            junturas <- .strsplit2(unique(original_signals$jl$junction[i]), "[.]")
             #Vemos si hay un unico pivot.
             punta_1 <- length(table(junturas[, 2]))
             punta_2 <- length(table(junturas[, 3]))
@@ -1003,15 +1003,15 @@
     }
     
     aa <- aa[order(aa$b.fdr), ]
-    # r <- strsplit2(unique(aa$region), "Chr")[, 2]
-    # chr <- strsplit2(r, ":")[, 1]
+    # r <- .strsplit2(unique(aa$region), "Chr")[, 2]
+    # chr <- .strsplit2(r, ":")[, 1]
     # chr <- sapply(chr, function(s){return(is.na(suppressWarnings(as.numeric(s))))})
     # aa$region[chr] <- r[chr] 
     
     #Finds events with bjs and locale and tries to merge them
     bjs_jl <- aa$b == 0 & aa$bjs == 1 & aa$ja == 0 & aa$jl == 1
     if(any(bjs_jl)){
-      regions <- strsplit2(strsplit2(aa$region[bjs_jl], ":")[, 2], "-")
+      regions <- .strsplit2(.strsplit2(aa$region[bjs_jl], ":")[, 2], "-")
       regions <- cbind(regions, locus=aa$locus[bjs_jl])
       regions <- cbind(regions, bin=aa$bin[bjs_jl])
       regions <- cbind(regions, region_original=aa$region[bjs_jl])
