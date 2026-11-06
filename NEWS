@@ -1,3 +1,11 @@
+CHANGES IN VERSION 2.23.2
+------------------------
+BUG FIXES
+  * Solve errors "subscript out of bounds" in gbCounts, jDUreport and the splicing reports with limma >= 3.99, where limma::strsplit2 now splits by fixed strings instead of regular expressions. ASpli uses an internal helper (.strsplit2) with the previous behaviour.
+
+OTHER CHANGES
+  * Depends on R (>= 3.5.0), required by the serialized example objects in inst/extdata.
+
 CHANGES IN VERSION 2.23.1
 ------------------------
 FUNCTIONS DEFUNCT
