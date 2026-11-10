@@ -482,7 +482,6 @@ setMethod(
       #if(length(grep("NA", rownames(junction.hits ))) > 0){
       #  print(target)
       #}
-      gc()
       if(ntargets > 1){     
         sptm <- (proc.time() - ptm)[3]/target/60        
         message(paste("ETA:", round(sptm*(nrow(targets) - target)), "min"))      

@@ -2,7 +2,6 @@
   cores = 1
   hits <- mclapply( reads, mc.cores = cores, function( x ) { 
         co <- countOverlaps( feature, x, ignore.strand = TRUE ) 
-        gc()
         return(co)
       } )  
   
@@ -36,7 +35,6 @@
   cores = 1
   hits <- mclapply( reads, mc.cores = cores, function(x) {
         co <- countOverlaps( feature, x, ignore.strand = TRUE)
-        gc()
         return(co)
       } )
   
@@ -73,7 +71,6 @@
   
   hits <- mclapply( ungapped, mc.cores = cores, function(x) { 
         co <- countOverlaps( feature, x, ignore.strand = TRUE,  minoverlap = l) 
-        gc()
         return(co)
       })  
   
@@ -289,7 +286,6 @@
           start(junctions) <- start(junctions)-1
           end(junctions) <- end(junctions)+1
           ujunctions <- unique(junctions)
-          gc()
           return(ujunctions)   
         } )
   jranges <- unique( unlist( GRangesList( unlist( ujunctions ) ) ) )
@@ -318,7 +314,6 @@
         end(junctions) <- end(junctions)+1
         count <- countMatches(jranges, junctions)    
         jc <- data.frame(row.names=names(jranges), count)
-        gc()
         return(jc)
       })
   

@@ -13,7 +13,6 @@
         seqlevels(r) <- gsub("[.]", "_", seqlevels(r))
         warning("Some seqnames had a '.' present in their names. ASpli had to normalize them using '_'.")
       }
-      gc()
       return(r)
     })
   names( datac ) <- rownames(targets)

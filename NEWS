@@ -1,3 +1,8 @@
+CHANGES IN VERSION 2.23.4
+------------------------
+OTHER CHANGES
+  * gbCounts: removed the explicit calls to gc() inside the per-sample loops. They accounted for ~90% of the running time (gbCounts on the example data went from ~40 s to ~3 s).
+
 CHANGES IN VERSION 2.23.3
 ------------------------
 OTHER CHANGES
