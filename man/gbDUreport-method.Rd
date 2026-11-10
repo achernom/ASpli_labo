@@ -175,7 +175,7 @@
 }
 
 \seealso{
-  \code{\link{edgeR}}, \code{\link{jDUreport}}
+  \code{\link[edgeR]{edgeR}}, \code{\link{jDUreport}}
   Accessors: \code{\link{genesDE}}, \code{\link{binsDU}}
   Export: \code{ \link{writeDU} }
 }

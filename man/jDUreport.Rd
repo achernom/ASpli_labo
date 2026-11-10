@@ -168,7 +168,7 @@ If NULL must provide a formula. }
             \code{\link{jalt}},
             \code{\link{junctionsDU}},
   Export:   \code{\link{writeJDU}},
-  \code{\link{writeDU}},  \code{\link{edgeR}}, \code{\link{ASpliAS}}
+  \code{\link{writeDU}},  \code{\link[edgeR]{edgeR}}, \code{\link{ASpliAS}}
 }
 
 

@@ -1,3 +1,9 @@
+CHANGES IN VERSION 2.23.3
+------------------------
+OTHER CHANGES
+  * NAMESPACE: utils::data is no longer imported (conflicted with BiocGenerics::data and gave a warning when loading the package); limma is imported again, as required by its presence in Depends.
+  * Rd cross-references to edgeR now include the package anchor.
+
 CHANGES IN VERSION 2.23.2
 ------------------------
 BUG FIXES
